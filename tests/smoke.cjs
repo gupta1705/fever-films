@@ -58,6 +58,56 @@ const PAGES = ['index.html', 'work.html', 'directors.html', 'about.html', 'conta
   await phone.locator('.menu-btn').click();
   assert.ok(await phone.locator('#site-nav').isVisible(), 'menu opens');
 
+  // ---------- iteration 2 (Getty treatment) ----------
+  const V2 = `${BASE}/iteration-2/`;
+  await page.goto(V2, { waitUntil: 'load' });
+  const local2 = await page.$$eval('[src],[href]', (els) => els
+    .flatMap((e) => [e.getAttribute('src'), e.getAttribute('href')])
+    .filter((u) => u && !/^(https?:|mailto:|#)/.test(u)));
+  for (const u of new Set(local2)) assert.equal((await page.request.get(new URL(u, V2).href)).status(), 200, `v2: ${u} missing`);
+  assert.equal(await page.locator('.field__item img').count(), 22, 'v2: field stills');
+  assert.equal(await page.locator('.nav a.is-on').count(), 0, 'v2: no section underlined on the intro');
+  await page.evaluate(() => scrollTo(0, document.getElementById('spotify').offsetTop));
+  await page.waitForTimeout(1500);
+  assert.ok(await page.evaluate(() => !document.querySelector('.screen__video').paused), 'v2: Spotify film plays when on screen');
+  assert.equal(await page.locator('.nav a.is-on').textContent(), 'Work', 'v2: Work underlined while the Spotify films play');
+  await page.evaluate(() => document.querySelector('.screen__video').dispatchEvent(new Event('ended')));
+  assert.match(await page.locator('.screen__video').getAttribute('src'), /spotify-lights\.mp4/, 'v2: the next film rolls on');
+  await page.locator('.screen__sound').click();
+  assert.equal(await page.evaluate(() => document.querySelector('.screen__video').muted), false, 'v2: sound turns on');
+  await page.evaluate(() => { const s = document.getElementById('directors'); scrollTo(0, s.offsetTop + (s.offsetHeight - innerHeight) * 0.6); });
+  await page.waitForTimeout(800);
+  assert.equal(await page.locator('.person.is-on .person__name').textContent(), 'Deepesh Saumitra Jagdish', 'v2: directors step with scroll');
+  assert.equal(await page.locator('#directors .timeline li.is-on').textContent(), 'Deepesh', 'v2: timeline follows');
+  await page.locator('.brand__films a[data-film="cyberdost-phulera"]').click();
+  assert.match(await page.locator('.lb__media iframe').getAttribute('src'), /r0bzNean0go/, 'v2: lightbox opens');
+  await page.keyboard.press('ArrowRight');
+  assert.match(await page.locator('.lb__media iframe').getAttribute('src'), /rZuU2rsYM5M/, 'v2: next film');
+  await page.keyboard.press('Escape');
+  await page.locator('.lb__media iframe').waitFor({ state: 'detached', timeout: 5000 });
+  await page.locator('.nav a[href="#directors"]').click();
+  await page.waitForTimeout(2600);
+  const gap = await page.evaluate(() => Math.abs(scrollY - document.getElementById('directors').offsetTop));
+  assert.ok(gap < 40, `v2: nav jumps to Directors (off by ${gap}px)`);
+  assert.equal(await page.locator('.nav a.is-on').textContent(), 'Directors', 'v2: Directors underlined');
+  assert.ok(await page.locator('.chrome .brief').isVisible(), 'v2: Email a brief stays on screen mid-story');
+  assert.equal(await page.locator('.intro .pill').count(), 0, 'v2: no Scroll down button');
+  await page.goto(`${V2}?shared#spotify-lights`);
+  assert.match(await page.locator('.lb__media iframe').getAttribute('src'), /LxK1G7hnbZE/, 'v2: deep link');
+  await phone.goto(V2);
+  assert.ok(await phone.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'v2: horizontal overflow on phone');
+  assert.ok(await phone.locator('.chrome .brief').isVisible(), 'v2: Email a brief visible on phone');
+  assert.ok(!(await phone.locator('#nav a[href="#about"]').isVisible()), 'v2: phone menu starts closed');
+  await phone.locator('.nav-toggle').click();
+  assert.ok(await phone.locator('#nav a[href="#about"]').isVisible(), 'v2: phone menu opens full-screen');
+  assert.ok(await phone.evaluate(() => {
+    const r = document.querySelector('.chrome .brief').getBoundingClientRect();
+    return document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2).classList.contains('brief');
+  }), 'v2: Email a brief stays tappable over the open menu');
+  await phone.locator('#nav a[href="#about"]').click();
+  await phone.waitForTimeout(700);
+  assert.ok(!(await phone.locator('#nav a[href="#about"]').isVisible()), 'v2: phone menu closes after a jump');
+
   assert.deepEqual(errors, [], 'console errors');
   await browser.close();
   console.log('smoke: all checks passed');

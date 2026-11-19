@@ -31,7 +31,7 @@ if (box && tiles.length) {
   const show = (i) => {
     current = (i + tiles.length) % tiles.length;
     const t = tiles[current].dataset;
-    const frame = Object.assign(document.createElement('iframe'), { src: t.embed, title: t.title, allowFullscreen: true });
+    const frame = Object.assign(document.createElement('iframe'), { src: t.embed, title: t.title });
     frame.allow = 'autoplay; encrypted-media; fullscreen; picture-in-picture';
     media.replaceChildren(frame);
     field('title').textContent = t.title;
