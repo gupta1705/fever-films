@@ -108,6 +108,55 @@ const PAGES = ['index.html', 'work.html', 'directors.html', 'about.html', 'conta
   await phone.waitForTimeout(700);
   assert.ok(!(await phone.locator('#nav a[href="#about"]').isVisible()), 'v2: phone menu closes after a jump');
 
+  // ---------- iteration 3 (whiteboard flow: logo opening, film montage, work, directors, IP) ----------
+  const V3 = `${BASE}/iteration-3/`;
+  const opened = (p) => p.waitForFunction(() => document.documentElement.classList.contains('is-opening'), null, { timeout: 15000 });
+  await page.goto(V3, { waitUntil: 'commit' });
+  await opened(page);
+  assert.ok(await page.locator('.opening__q').isVisible(), 'v3: "How is your fever?" opening plays on load');
+  await page.locator('.opening').waitFor({ state: 'detached', timeout: 6000 });
+  assert.ok(await page.locator('.mark__on-dark').isVisible(), 'v3: logo lands in the top bar');
+  await page.waitForTimeout(800);
+  assert.ok(await page.evaluate(() => !document.querySelector('.hero__video').paused), 'v3: montage plays after the opening');
+  const local3 = await page.$$eval('[src],[href],[poster]', (els) => els
+    .flatMap((e) => [e.getAttribute('src'), e.getAttribute('href'), e.getAttribute('poster')])
+    .filter((u) => u && !/^(https?:|mailto:|#)/.test(u)));
+  for (const u of new Set(local3)) assert.equal((await page.request.get(new URL(u, V3).href)).status(), 200, `v3: ${u} missing`);
+  assert.deepEqual(await page.$$eval('main > [id]', (els) => els.map((e) => e.id)), ['top', 'work', 'spotify', 'directors', 'ip', 'about', 'contact'], 'v3: montage, work, directors, IP');
+  // play through to the third cut rather than seek: python's http.server has no range requests, so seeks snap to 0
+  await page.waitForFunction(() => {
+    const t = document.querySelector('.hero__video').currentTime;
+    return t > CUTS[2][0] + 0.4 && t < CUTS[3][0] && document.querySelector('.hero__film').textContent === CUTS[2][1];
+  }, null, { timeout: 25000 }).catch(() => assert.fail('v3: caption names the film on screen'));
+  await page.locator('.hero__pause').click();
+  assert.ok(await page.evaluate(() => document.querySelector('.hero__video').paused), 'v3: montage pauses');
+  assert.equal(await page.locator('.hero__pause').textContent(), 'Play', 'v3: button offers Play');
+  await page.locator('.nav a[href="#ip"]').click();
+  await page.waitForTimeout(2600);
+  const gap3 = await page.evaluate(() => Math.abs(scrollY - document.getElementById('ip').offsetTop));
+  assert.ok(gap3 < 40, `v3: nav jumps to IP (off by ${gap3}px)`);
+  assert.equal(await page.locator('.nav a.is-on').textContent(), 'IP', 'v3: IP underlined');
+  await page.locator('.ip-row__ads a[data-film="spotify-laddoo"]').click();
+  assert.match(await page.locator('.lb__media iframe').getAttribute('src'), /Ll9335RK9R0/, 'v3: IP links open the film');
+  await page.keyboard.press('Escape');
+  await page.locator('.lb__media iframe').waitFor({ state: 'detached', timeout: 5000 });
+  await page.goto(`${V3}?again`, { waitUntil: 'commit' });
+  await opened(page);
+  await page.mouse.click(400, 300);
+  assert.equal(await page.locator('.opening').count(), 0, 'v3: a click skips the opening');
+  await page.goto(`${V3}?shared#spotify-lights`);
+  assert.equal(await page.locator('.opening').count(), 0, 'v3: links skip the opening');
+  assert.match(await page.locator('.lb__media iframe').getAttribute('src'), /LxK1G7hnbZE/, 'v3: deep link');
+  await phone.goto(V3, { waitUntil: 'commit' });
+  await opened(phone);
+  await phone.locator('.opening').waitFor({ state: 'detached', timeout: 6000 });
+  assert.ok(await phone.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'v3: horizontal overflow on phone');
+  assert.ok(await phone.locator('.chrome .brief').isVisible(), 'v3: Email a brief visible on phone');
+  assert.ok(await phone.evaluate(() => {
+    const bar = document.querySelector('.hero__bar').getBoundingClientRect(), brief = document.querySelector('.chrome .brief').getBoundingClientRect();
+    return bar.bottom <= brief.top;
+  }), 'v3: montage caption clears the floating Email a brief button');
+
   assert.deepEqual(errors, [], 'console errors');
   await browser.close();
   console.log('smoke: all checks passed');
