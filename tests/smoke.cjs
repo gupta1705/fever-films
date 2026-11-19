@@ -42,7 +42,8 @@ const PAGES = ['index.html', 'work.html', 'directors.html', 'about.html', 'conta
   assert.match(await page.locator('.lb__media iframe').getAttribute('src'), /13i2K9l_GGiNd0cqgOdKI8uhV56eY3rS-/, 'wraps to last embeddable film');
   await page.keyboard.press('Escape');
   assert.equal(await page.locator('dialog.lightbox[open]').count(), 0, 'Esc closes');
-  assert.equal(await page.locator('.lb__media iframe').count(), 0, 'closing stops the video');
+  await page.locator('.lb__media iframe').waitFor({ state: 'detached', timeout: 5000 }); // 'close' fires async after Esc
+
   assert.equal(new URL(page.url()).hash, '', 'hash cleared');
   await page.goto(`${BASE}/work.html?shared#cu-online-banrakas`); // query forces a fresh load, like a shared link
   assert.match(await page.locator('.lb__media iframe').getAttribute('src'), /zCt4tXB0suY/, 'deep link');
