@@ -1,0 +1,233 @@
+/* Fever Films. Layout and motion follow whitetigerfilms.in; colours come from the Fever logo. */
+:root {
+  --ink: #231f20;      /* logo dark */
+  --text: #404040;     /* White Tiger body grey */
+  --muted: #8a8a8a;
+  --line: #e7e7e7;
+  --tile: #f4f4f4;
+  --yellow: #fcc011;   /* logo yellow */
+  --red: #b52024;      /* thermometer bulb */
+  --gutter: clamp(16px, 5vw, 72px);
+  --font: "Inter Tight", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --ease: cubic-bezier(.19, 1, .22, 1);
+  color-scheme: light;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: #fff; color: var(--text);
+  font: 400 16px/1.6 var(--font); -webkit-font-smoothing: antialiased;
+  min-height: 100svh; display: flex; flex-direction: column; /* footer sits at the bottom on short pages */
+}
+main { flex: 1; }
+img, video, iframe { display: block; max-width: 100%; }
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+.skip { position: absolute; left: 8px; top: -60px; z-index: 50; background: var(--ink); color: #fff; padding: 8px 14px; }
+.skip:focus { top: 8px; }
+
+/* ---------- header ---------- */
+.site-header {
+  position: relative; z-index: 20; height: 72px; padding: 0 var(--gutter);
+  display: flex; align-items: center; justify-content: space-between; background: #fff;
+}
+.logo { display: block; }
+.logo img { height: 34px; width: auto; }
+.nav { display: flex; gap: clamp(18px, 2.4vw, 34px); }
+.nav a { text-decoration: none; font-size: 16px; color: var(--text); transition: color .2s; }
+.nav a:hover, .nav a[aria-current="page"] { color: var(--muted); }
+.menu-btn { display: none; }
+
+@media (max-width: 720px) {
+  .site-header { height: 64px; }
+  .logo img { height: 28px; }
+  .menu-btn {
+    display: grid; place-items: center; width: 44px; height: 44px; margin-right: -10px;
+    background: none; border: 0; cursor: pointer;
+  }
+  .menu-btn__bar, .menu-btn__bar::before {
+    display: block; width: 22px; height: 2px; background: var(--ink); transition: transform .3s;
+  }
+  .menu-btn__bar { position: relative; transform: translateY(-4px); }
+  .menu-btn__bar::before { content: ""; position: absolute; top: 8px; }
+  .menu-btn[aria-expanded="true"] .menu-btn__bar { transform: rotate(45deg); }
+  .menu-btn[aria-expanded="true"] .menu-btn__bar::before { transform: translateY(-8px) rotate(-90deg); }
+  .nav {
+    position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; gap: 0;
+    background: #fff; padding: 8px var(--gutter) 20px; border-bottom: 1px solid var(--line);
+  }
+  .js .nav:not(.is-open) { display: none; }
+  .nav a { font-size: 22px; padding: 10px 0; }
+}
+
+/* ---------- home hero ---------- */
+.hero {
+  position: relative; overflow: hidden; background: #111;
+  min-height: max(560px, calc(100svh - 72px));
+  display: grid; place-items: center; padding: 80px var(--gutter);
+}
+.hero video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.hero::after { content: ""; position: absolute; inset: 0; background: rgba(0, 0, 0, .5); }
+.hero__inner { position: relative; z-index: 1; width: min(860px, 100%); display: grid; gap: clamp(64px, 14vh, 150px); }
+.hero__line {
+  margin: 0; color: var(--yellow); font-weight: 400;
+  font-size: clamp(25px, 2.6vw, 38px); line-height: 1.22; letter-spacing: -.045em;
+}
+.pill {
+  justify-self: center; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  width: min(352px, 100%); padding: 11px 24px; border-radius: 10px;
+  background: var(--yellow); color: var(--ink); box-shadow: .7px .7px 0 var(--ink);
+  font-size: 14px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; text-decoration: none;
+  transition: background .25s, transform .25s var(--ease);
+}
+.pill svg { transition: transform .35s var(--ease); }
+.pill:hover { background: #ffd03f; }
+.pill:hover svg { transform: translateX(4px); }
+
+/* ---------- page headings ---------- */
+.page { padding: clamp(28px, 5vw, 56px) 0 0; }
+.page-title {
+  margin: 0 auto clamp(36px, 5vw, 64px); padding: 0 var(--gutter); text-align: center;
+  font-weight: 400; color: var(--text); font-size: clamp(38px, 4.4vw, 60px);
+  line-height: 1.05; letter-spacing: -.05em;
+}
+.section-title {
+  margin: 0 0 24px; font-weight: 400; color: var(--text);
+  font-size: clamp(28px, 3vw, 40px); line-height: 1.1; letter-spacing: -.045em;
+}
+
+/* ---------- work grid ---------- */
+.grid {
+  list-style: none; margin: 0; padding: 0 clamp(8px, 2vw, 30px);
+  display: grid; gap: 6px; grid-template-columns: 1fr;
+}
+@media (min-width: 560px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 960px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+.tile { position: relative; display: block; aspect-ratio: 16 / 9; overflow: hidden; background: var(--tile); color: #fff; text-decoration: none; }
+.tile img { width: 100%; height: 100%; object-fit: cover; transition: transform 1s var(--ease); }
+.tile__cap {
+  position: absolute; inset: auto 0 0 0; padding: 40px 16px 14px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, .72));
+  display: grid; gap: 2px; opacity: 0; transform: translateY(8px);
+  transition: opacity .35s, transform .5s var(--ease);
+}
+.tile__client { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--yellow); }
+.tile__title { font-size: 17px; line-height: 1.25; letter-spacing: -.02em; }
+.tile:hover img, .tile:focus-visible img { transform: scale(1.04); }
+.tile:hover .tile__cap, .tile:focus-visible .tile__cap { opacity: 1; transform: none; }
+@media (hover: none) { .tile__cap { opacity: 1; transform: none; } }
+
+/* ---------- lightbox (White Tiger's white full-screen viewer) ---------- */
+.lightbox {
+  width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0;
+  border: 0; background: #fff; color: var(--text);
+}
+.lightbox::backdrop { background: #fff; }
+.lightbox[open] { display: grid; grid-template-columns: 72px 1fr 72px; align-items: center; animation: fade .35s ease; }
+@keyframes fade { from { opacity: 0; } }
+.lb__close, .lb__nav { background: none; border: 0; cursor: pointer; display: grid; place-items: center; width: 56px; height: 56px; color: var(--ink); }
+.lb__close { position: absolute; top: 16px; right: 16px; z-index: 2; }
+.lb__nav { justify-self: center; }
+.lb__nav:hover, .lb__close:hover { color: var(--red); }
+.lb__body {
+  display: grid; grid-template-columns: minmax(0, 1.75fr) minmax(240px, 1fr);
+  gap: clamp(24px, 3vw, 48px); align-items: center; max-height: 100dvh; padding: 72px 0;
+}
+.lb__media { width: 100%; aspect-ratio: 16 / 9; background: #000; }
+.lb__media iframe { width: 100%; height: 100%; border: 0; }
+.lb__info { max-height: 76dvh; overflow: auto; padding-right: 8px; }
+.lb__title { margin: 0 0 18px; color: var(--ink); font-size: clamp(24px, 2.2vw, 32px); font-weight: 700; line-height: 1.12; letter-spacing: -.035em; }
+.lb__meta { margin: 0 0 18px; display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; font-size: 15px; }
+.lb__meta dt { color: var(--muted); }
+.lb__meta dd { margin: 0; color: var(--ink); }
+.lb__desc { margin: 0 0 22px; font-size: 15px; }
+.lb__link { font-size: 14px; color: var(--ink); }
+@media (max-width: 860px) {
+  .lightbox[open] { display: block; overflow: auto; }
+  .lb__body { grid-template-columns: 1fr; padding: 72px 16px 96px; max-height: none; }
+  .lb__info { max-height: none; overflow: visible; }
+  .lb__nav { position: fixed; bottom: 16px; z-index: 2; background: #fff; border-radius: 50%; box-shadow: 0 2px 10px rgba(0,0,0,.12); }
+  .lb__nav--prev { left: 16px; }
+  .lb__nav--next { right: 16px; }
+}
+
+/* ---------- directors (White Tiger "about" portraits) ---------- */
+.people {
+  list-style: none; margin: 0 auto; padding: 0 var(--gutter); max-width: 980px;
+  display: grid; gap: clamp(56px, 7vw, 96px) 40px; grid-template-columns: 1fr; text-align: center;
+}
+@media (min-width: 720px) { .people { grid-template-columns: repeat(2, 1fr); } }
+.person__photo {
+  width: 220px; height: 220px; margin: 0 auto 18px; border-radius: 50%; object-fit: cover;
+  filter: grayscale(1) contrast(1.05); transition: filter .6s;
+}
+.person:hover .person__photo { filter: none; }
+.person__name { margin: 0; color: var(--ink); font-size: 22px; font-weight: 500; letter-spacing: -.03em; }
+.person__role { margin: 0 0 14px; font-size: 14px; color: var(--muted); }
+.credits { list-style: none; margin: 0 0 14px; padding: 0; font-size: 15px; font-style: italic; font-weight: 300; }
+.credits span { color: var(--muted); font-style: normal; font-size: 13px; margin-left: 6px; }
+.imdb { font-size: 14px; color: var(--ink); }
+.note { margin: 56px auto 0; padding: 0 var(--gutter); text-align: center; font-size: 13px; color: var(--muted); }
+
+/* ---------- about ---------- */
+.prose { max-width: 1080px; margin: 0 auto; padding: 0 var(--gutter); }
+.lead {
+  margin: 0 auto clamp(72px, 9vw, 120px); max-width: 860px; text-align: center;
+  font-size: clamp(20px, 2vw, 27px); line-height: 1.38; letter-spacing: -.03em; font-weight: 300;
+}
+.lead strong { font-weight: 500; color: var(--ink); }
+.block { display: grid; gap: 24px 64px; padding: 40px 0; border-top: 1px solid var(--line); }
+@media (min-width: 860px) { .block { grid-template-columns: 300px 1fr; } }
+.block .section-title { margin: 0; }
+.list { list-style: none; margin: 0; padding: 0; }
+.list li { padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 18px; letter-spacing: -.02em; color: var(--ink); }
+.list li:first-child { padding-top: 4px; }
+.list small { display: block; font-size: 14px; color: var(--muted); letter-spacing: 0; }
+.cols { display: grid; gap: 32px; }
+@media (min-width: 640px) { .cols { grid-template-columns: 1fr 1fr; } }
+.cols h3 { margin: 0 0 8px; font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--red); }
+.statement { margin: 0; font-size: clamp(22px, 2.4vw, 32px); line-height: 1.3; letter-spacing: -.035em; font-weight: 300; }
+.statement b { font-weight: 600; color: var(--ink); }
+
+/* ---------- contact ---------- */
+.contact { text-align: center; padding: clamp(48px, 10vh, 120px) var(--gutter) clamp(40px, 8vh, 96px); }
+.contact .fever-text { margin-bottom: 20px; }
+.contact p { max-width: 560px; margin: 0 auto 28px; font-size: 18px; }
+.contact__email { display: inline-block; margin-bottom: 28px; color: var(--ink); font-weight: 700; font-size: clamp(24px, 3vw, 36px); letter-spacing: -.03em; text-decoration: none; border-bottom: 2px solid var(--yellow); }
+.contact__email:hover { border-color: var(--red); }
+.contact .pill { margin-bottom: 40px; }
+
+/* ---------- footer: White Tiger's gradient sign-off, in the thermometer colours ---------- */
+.site-footer { text-align: center; padding: clamp(64px, 9vw, 96px) var(--gutter) 40px; }
+.fever-text {
+  display: inline-block; margin: 0; padding-bottom: .08em; text-decoration: none;
+  font-weight: 700; font-size: clamp(42px, 5.4vw, 72px); line-height: 1.05; letter-spacing: -.05em;
+  background: linear-gradient(90deg, var(--red) 0%, #e2571e 35%, var(--yellow) 65%, var(--red) 100%) 0 0 / 300% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  transition: background-position 1.6s var(--ease);
+}
+.fever-text:hover { background-position: 100% 0; }
+.footer__email { display: inline-block; margin: 14px 0 18px; font-size: 20px; font-weight: 700; color: var(--text); text-decoration: none; }
+.footer__email:hover { color: var(--red); }
+.socials { display: flex; justify-content: center; gap: 18px; margin-bottom: 28px; }
+.socials a { display: grid; place-items: center; width: 40px; height: 40px; color: #000; transition: color .2s; }
+.socials a:hover { color: var(--red); }
+.copy { margin: 0; font-size: 13px; font-weight: 600; color: var(--text); }
+.copy span { font-weight: 400; color: var(--muted); }
+
+/* ---------- scroll reveal: slides up from 100% inside its own mask, 1.2 s (White Tiger) ---------- */
+.js [data-reveal] { transform: translateY(100%); clip-path: inset(0 0 100% 0); }
+.js [data-reveal].is-in {
+  transform: none; clip-path: inset(0);
+  transition: transform 1.2s var(--ease) var(--d, 0ms), clip-path 1.2s var(--ease) var(--d, 0ms), filter .6s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal] { transform: none; clip-path: none; }
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}
