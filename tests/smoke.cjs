@@ -110,7 +110,7 @@ const PAGES = ['index.html', 'work.html', 'directors.html', 'about.html', 'conta
 
   // ---------- iteration 3 (whiteboard flow: logo opening, film montage, work, directors, IP) ----------
   const V3 = `${BASE}/iteration-3/`;
-  const opened = (p) => p.waitForFunction(() => document.documentElement.classList.contains('is-opening'), null, { timeout: 15000 });
+  const opened = (p) => p.waitForFunction(() => document.documentElement?.classList.contains('is-opening'), null, { timeout: 15000 }); // 'commit' can land before the document exists
   await page.goto(V3, { waitUntil: 'commit' });
   await opened(page);
   assert.ok(await page.locator('.opening__q').isVisible(), 'v3: "How is your fever?" opening plays on load');
