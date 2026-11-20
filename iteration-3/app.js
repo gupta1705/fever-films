@@ -113,20 +113,19 @@ const items = pool.map((p, i) => {
   return { el, d, y: i / pool.length + rnd() * 0.04 };
 });
 
-// ---------- scenes: sticky stages; progress picks the step, the timeline tick and the zoom ----------
-const scenes = $$('.scene').map((el) => ({ el, i: -1, steps: $$('.line', el), ticks: $$('.timeline li', el) }));
+// ---------- behind the scenes: each strip rolls on a loop; a cloned set hides the seam (reduced motion: scroll by hand) ----------
+if (!reduce) $$('.bts__track').forEach((track) => {
+  const photos = [...track.children];
+  photos.forEach((li) => { const copy = li.cloneNode(true); copy.setAttribute('aria-hidden', 'true'); track.append(copy); });
+  track.style.setProperty('--dur', `${photos.length * 7}s`);
+});
 
-function renderScene(s, vh, r) {
-  const p = clamp(-r.top / (r.height - vh));
-  const i = Math.min(s.steps.length - 1, Math.floor(p * s.steps.length));
-  if (i === s.i) return;
-  s.i = i;
-  s.steps.forEach((n, k) => {
-    n.classList.toggle('is-on', k === i);
-    n.querySelectorAll('a').forEach((a) => { a.tabIndex = k === i ? 0 : -1; }); // no focus on invisible links
-  });
-  s.ticks.forEach((t, k) => { t.classList.toggle('is-on', k === i); t.classList.toggle('is-done', k <= i); });
-}
+// ---------- directors roster: on a mouse, the hovered director's portrait follows the pointer ----------
+const roster = $('.roster');
+roster.addEventListener('pointermove', (e) => {
+  roster.style.setProperty('--x', `${e.clientX}px`);
+  roster.style.setProperty('--y', `${e.clientY}px`);
+});
 
 // ---------- Spotify screening: plays while on screen, muted until asked; each film rolls into the next ----------
 const video = $('.screen__video');
@@ -209,14 +208,6 @@ document.addEventListener('click', (e) => {
   else target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
 });
 
-// ---------- rotating word in the closing line ----------
-const words = $$('.rotator span');
-if (!reduce) setInterval(() => {
-  const i = words.findIndex((w) => w.classList.contains('is-on'));
-  words[i].classList.remove('is-on');
-  words[(i + 1) % words.length].classList.add('is-on');
-}, 2400);
-
 // ---------- one loop ----------
 let mx = 0, tmx = 0;
 addEventListener('pointermove', (e) => { tmx = e.clientX / innerWidth - 0.5; }, { passive: true });
@@ -227,9 +218,7 @@ measure();
 function frame(t) {
   lenis?.raf(t);
   const y = scrollY, vh = innerHeight;
-  const rects = scenes.map((s) => s.el.getBoundingClientRect()); // layout reads before style writes: no thrash
   const fieldOn = mood(vh);
-  scenes.forEach((s, k) => renderScene(s, vh, rects[k]));
   progress.style.transform = `scaleX(${clamp(y / maxScroll).toFixed(4)})`;
   if (fieldOn) {
     mx += (tmx - mx) * 0.06;
@@ -249,9 +238,9 @@ const hero = $('.hero__video'), heroFilm = $('.hero__film'), pauseBtn = $('.hero
 const opening = $('.opening');
 // [start second, film] for each 1.2 s cut in video/montage.mp4, same order as scripts/make-montage.sh
 const CUTS = [
-  'Spotify x Gullak', 'CyberDost x Panchayat, with Amitabh Bachchan', 'Wiom', 'Spotify x Gullak', 'Sitaare Zameen Par, Aamir Khan Productions',
-  'CU Online', 'UltraTech', 'Spotify x Gullak', 'Wiom', 'Aadhar Housing Finance', 'Spotify x Gullak', 'CyberDost', 'Spotify x Gullak', 'Marzi',
-  'CU Online', 'Spotify x Gullak',
+  'cyberdost-phulera', 'cyberdost-phulera-2', 'sitaare-zameen-par', 'marzi-find-your-kind', 'spotify-lights', 'spotify-laddoo',
+  'spotify-rangoli', 'spotify-lights', 'cu-online-banrakas', 'cu-online-banrakas', 'ultratech-ek-ghar', 'wiom-two-kids',
+  'aadhar-daga-seth', 'wiom-preeti-guddu', 'cyberdost-scam-calls',
 ].map((film, i) => [i * 1.2, film]);
 let heroHeld = reduce; // reduced motion: the montage waits for Play
 const heroPlay = () => { if (!heroHeld && !opening.isConnected) hero.play().catch(() => {}); };
@@ -263,8 +252,12 @@ function holdHero(held) {
 holdHero(heroHeld);
 pauseBtn.addEventListener('click', () => holdHero(!heroHeld));
 hero.addEventListener('timeupdate', () => {
-  const cut = CUTS.findLast(([at]) => hero.currentTime >= at);
-  if (cut && heroFilm.textContent !== cut[1]) heroFilm.textContent = cut[1];
+  const slug = CUTS.findLast(([at]) => hero.currentTime >= at)[1], f = FILMS[slug];
+  if (heroFilm.dataset.film === slug) return;
+  Object.assign(heroFilm, { href: f.href, target: f.embed ? '' : '_blank' }); // Marzi opens on Instagram
+  heroFilm.dataset.film = slug;
+  $('.hero__brand', heroFilm).textContent = f.client.split(',')[0];
+  $('.hero__title', heroFilm).textContent = f.title;
 });
 new IntersectionObserver(([e]) => (e.isIntersecting ? heroPlay() : hero.pause())).observe(hero);
 

@@ -113,20 +113,12 @@ const items = pool.map((p, i) => {
   return { el, d, y: i / pool.length + rnd() * 0.04 };
 });
 
-// ---------- scenes: sticky stages; progress picks the step, the timeline tick and the zoom ----------
-const scenes = $$('.scene').map((el) => ({ el, i: -1, steps: $$('.line', el), ticks: $$('.timeline li', el) }));
-
-function renderScene(s, vh, r) {
-  const p = clamp(-r.top / (r.height - vh));
-  const i = Math.min(s.steps.length - 1, Math.floor(p * s.steps.length));
-  if (i === s.i) return;
-  s.i = i;
-  s.steps.forEach((n, k) => {
-    n.classList.toggle('is-on', k === i);
-    n.querySelectorAll('a').forEach((a) => { a.tabIndex = k === i ? 0 : -1; }); // no focus on invisible links
-  });
-  s.ticks.forEach((t, k) => { t.classList.toggle('is-on', k === i); t.classList.toggle('is-done', k <= i); });
-}
+// ---------- directors roster: on a mouse, the hovered director's portrait follows the pointer ----------
+const roster = $('.roster');
+roster.addEventListener('pointermove', (e) => {
+  roster.style.setProperty('--x', `${e.clientX}px`);
+  roster.style.setProperty('--y', `${e.clientY}px`);
+});
 
 // ---------- Spotify screening: plays while on screen, muted until asked; each film rolls into the next ----------
 const video = $('.screen__video');
@@ -227,9 +219,7 @@ measure();
 function frame(t) {
   lenis?.raf(t);
   const y = scrollY, vh = innerHeight;
-  const rects = scenes.map((s) => s.el.getBoundingClientRect()); // layout reads before style writes: no thrash
   const fieldOn = mood(vh);
-  scenes.forEach((s, k) => renderScene(s, vh, rects[k]));
   progress.style.transform = `scaleX(${clamp(y / maxScroll).toFixed(4)})`;
   if (fieldOn) {
     mx += (tmx - mx) * 0.06;

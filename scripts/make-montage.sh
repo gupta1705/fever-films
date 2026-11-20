@@ -11,12 +11,11 @@ LIGHTS=1EmaGxOj85Xnlhh1VS9ZZD8h2K5le1ljP; LADDOO=1boHxPYCz6Ttg5Y7CPazE6_rEtDQfyY
 CU=1iSsm1PdVMnDUKRWi5egWqLOFpfUFik-- # the Wiom masters stopped serving ranged reads, so Wiom cuts are stills
 LEN=1.2
 # "v <drive id> <second>" is a clip from a master; "s <still>" is a push-in on assets/img/work/<still>.webp
-CUTS=("v $LIGHTS 46.2" "s cyberdost-phulera" "s wiom-two-kids" "v $LADDOO 32.3" "s sitaare-zameen-par" "v $CU 89.4"
-      "s ultratech-ek-ghar" "v $RANGOLI 36.9" "s wiom-preeti-guddu" "s aadhar-daga-seth" "v $LADDOO 41.5" "s cyberdost-scam-calls"
-      "v $LIGHTS 50.8" "s marzi-find-your-kind" "v $CU 44.7" "v $RANGOLI 50.8")
+# order agreed with the team: Amitabh (CyberDost), Aamir Khan, Suniel Shetty (Marzi), Spotify, CU, then the rest
+CUTS=("s cyberdost-phulera" "s cyberdost-phulera-2" "s sitaare-zameen-par" "s marzi-find-your-kind" "v $LIGHTS 46.2" "v $LADDOO 32.3" "v $RANGOLI 36.9" "v $LIGHTS 50.8" "v $CU 89.4" "v $CU 44.7" "s ultratech-ek-ghar" "s wiom-two-kids" "s aadhar-daga-seth" "s wiom-preeti-guddu" "s cyberdost-scam-calls")
 ENC=(-an -c:v libx264 -crf 16 -preset veryfast -pix_fmt yuv420p)
 : > list.txt; i=0
-for c in "${CUTS[@]}"; do set -- $c; i=$((i+1)); out=$(printf 'c%02d.mp4' $i)
+for c in "${CUTS[@]}"; do set -- $c; i=$((i+1)); out="$(echo "$*" | tr -c 'A-Za-z0-9.\n-' _).mp4" # named by content, so reordering reuses cuts
   if [ -s "$out" ]; then : # already cut on an earlier run
   elif [ "$1" = v ]; then
     for try in 1 2 3; do # Drive sometimes drops a ranged request; retry before giving up

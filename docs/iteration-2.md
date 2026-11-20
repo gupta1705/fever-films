@@ -49,6 +49,10 @@ red→gold progress hairline along the top edge; a soft fade behind the bar in t
 colour. Phones: "Menu" opens a full-screen overlay of large gold section names; "Email a brief"
 floats at the bottom, above everything (also inside the film viewer). No "Scroll down".
 Spotify films: no tabs (removed by request); they play one after another on their own.
+Directors (changed on request: the pinned portrait, huge gilt name and timeline read as AI-made) are now
+a production-house roster. Each row has the name, their shows with IMDb ratings, and an IMDb link. On a
+mouse, the hovered director's portrait follows the pointer. On phones it sits beside the name.
+Phones: brands in the Work roll sit 7vh apart instead of 14vh (on request, too much gap).
 Film data lives once in `iteration-2/app.js`; the lightbox from iteration 1 is reused.
 Reduced motion: no smooth scroll, no drift, no zoom; text still steps.
 

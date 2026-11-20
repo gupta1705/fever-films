@@ -4,6 +4,16 @@ const assert = require('node:assert/strict');
 const { chromium } = require('playwright');
 
 const BASE = process.env.BASE || 'http://localhost:8765';
+
+// Directors roster (iterations 2 and 3): four rows; on a mouse, the hovered director's portrait shows by the pointer
+async function rosterCheck(p, tag) {
+  assert.equal(await p.locator('.roster__row').count(), 4, `${tag}: four directors`);
+  const row = p.locator('.roster__row').nth(2);
+  await row.scrollIntoViewIfNeeded();
+  await row.hover();
+  await p.waitForTimeout(500);
+  assert.equal(await row.locator('.roster__face').evaluate((el) => getComputedStyle(el).opacity), '1', `${tag}: hovered director's portrait shows`);
+}
 const PAGES = ['index.html', 'work.html', 'directors.html', 'about.html', 'contact.html'];
 
 (async () => {
@@ -75,10 +85,7 @@ const PAGES = ['index.html', 'work.html', 'directors.html', 'about.html', 'conta
   assert.match(await page.locator('.screen__video').getAttribute('src'), /spotify-lights\.mp4/, 'v2: the next film rolls on');
   await page.locator('.screen__sound').click();
   assert.equal(await page.evaluate(() => document.querySelector('.screen__video').muted), false, 'v2: sound turns on');
-  await page.evaluate(() => { const s = document.getElementById('directors'); scrollTo(0, s.offsetTop + (s.offsetHeight - innerHeight) * 0.6); });
-  await page.waitForTimeout(800);
-  assert.equal(await page.locator('.person.is-on .person__name').textContent(), 'Deepesh Saumitra Jagdish', 'v2: directors step with scroll');
-  assert.equal(await page.locator('#directors .timeline li.is-on').textContent(), 'Deepesh', 'v2: timeline follows');
+  await rosterCheck(page, 'v2');
   await page.locator('.brand__films a[data-film="cyberdost-phulera"]').click();
   assert.match(await page.locator('.lb__media iframe').getAttribute('src'), /r0bzNean0go/, 'v2: lightbox opens');
   await page.keyboard.press('ArrowRight');
@@ -122,11 +129,13 @@ const PAGES = ['index.html', 'work.html', 'directors.html', 'about.html', 'conta
     .flatMap((e) => [e.getAttribute('src'), e.getAttribute('href'), e.getAttribute('poster')])
     .filter((u) => u && !/^(https?:|mailto:|#)/.test(u)));
   for (const u of new Set(local3)) assert.equal((await page.request.get(new URL(u, V3).href)).status(), 200, `v3: ${u} missing`);
-  assert.deepEqual(await page.$$eval('main > [id]', (els) => els.map((e) => e.id)), ['top', 'work', 'spotify', 'directors', 'ip', 'about', 'contact'], 'v3: montage, work, directors, IP');
+  assert.deepEqual(await page.$$eval('main > [id]', (els) => els.map((e) => e.id)), ['top', 'work', 'spotify', 'directors', 'bts', 'ip', 'about', 'contact'], 'v3: montage, work, directors, BTS, IP');
+  assert.equal(await page.locator('.bts__track li:not([aria-hidden]) img').count(), 21, 'v3: 21 BTS photos');
+  assert.equal(await page.locator('.bts__track li[aria-hidden] img').count(), 21, 'v3: BTS strips loop (cloned set)');
   // play through to the third cut rather than seek: python's http.server has no range requests, so seeks snap to 0
   await page.waitForFunction(() => {
     const t = document.querySelector('.hero__video').currentTime;
-    return t > CUTS[2][0] + 0.4 && t < CUTS[3][0] && document.querySelector('.hero__film').textContent === CUTS[2][1];
+    return t > CUTS[2][0] + 0.4 && t < CUTS[3][0] && document.querySelector('.hero__film').dataset.film === CUTS[2][1];
   }, null, { timeout: 25000 }).catch(() => assert.fail('v3: caption names the film on screen'));
   await page.locator('.hero__pause').click();
   assert.ok(await page.evaluate(() => document.querySelector('.hero__video').paused), 'v3: montage pauses');
@@ -136,6 +145,7 @@ const PAGES = ['index.html', 'work.html', 'directors.html', 'about.html', 'conta
   const gap3 = await page.evaluate(() => Math.abs(scrollY - document.getElementById('ip').offsetTop));
   assert.ok(gap3 < 40, `v3: nav jumps to IP (off by ${gap3}px)`);
   assert.equal(await page.locator('.nav a.is-on').textContent(), 'IP', 'v3: IP underlined');
+  await rosterCheck(page, 'v3');
   await page.locator('.ip-row__ads a[data-film="spotify-laddoo"]').click();
   assert.match(await page.locator('.lb__media iframe').getAttribute('src'), /Ll9335RK9R0/, 'v3: IP links open the film');
   await page.keyboard.press('Escape');

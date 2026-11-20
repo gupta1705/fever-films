@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0b0a08">
-  <title>Fever Films | Ad films from TVF</title>
-  <meta name="description" content="Fever Films is the advertising arm of TVF. Films for Spotify, CyberDost x Panchayat with Amitabh Bachchan, Sitaare Zameen Par, UltraTech, Aadhar Housing Finance, CU Online, Wiom and Marzi.">
-  <meta property="og:title" content="Fever Films | Ad films from TVF">
-  <meta property="og:description" content="Here's how TVF's storytellers make ads people watch till the end.">
+  <title>Fever Films | Ad films</title>
+  <meta name="description" content="Ad films by Fever Films: CyberDost with Amitabh Bachchan, Sitaare Zameen Par with Aamir Khan, Marzi with Suniel Shetty, Spotify, CU Online, UltraTech, Aadhar Housing Finance and Wiom.">
+  <meta property="og:title" content="Fever Films | Ad films">
+  <meta property="og:description" content="Ad films for CyberDost, Aamir Khan Productions, Marzi, Spotify, CU Online and more.">
   <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Imbue:opsz,wght@10..100,300..500&amp;family=Host+Grotesk:wght@400;500;600&amp;display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500;600;700&amp;display=swap">
   <link rel="stylesheet" href="style.css">
   <script>document.documentElement.classList.add('js')</script>
   <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" defer></script>
@@ -55,6 +55,7 @@
     <nav class="nav" id="nav" aria-label="Sections">
       <a href="#work">Work</a>
       <a href="#directors">Directors</a>
+      <a href="#bts">BTS</a>
       <a href="#ip">IP</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
@@ -73,46 +74,21 @@
     <!-- 1. Snapshots of our films, cut like an edit (the 1st December / Banana in a Suit opening) -->
     <section class="hero" id="top" aria-labelledby="hero-title">
       <video class="hero__video" muted loop playsinline preload="auto" poster="img/montage.webp" src="video/montage.mp4" aria-hidden="true"></video>
-      <div class="hero__text">
-        <p class="eyebrow">Fever Films, the advertising arm of TVF</p>
-        <h1 class="headline" id="hero-title">Here's how TVF's storytellers make ads people watch till the end.</h1>
-      </div>
+      <h1 class="visually-hidden" id="hero-title">Fever Films</h1>
       <div class="hero__bar">
-        <p class="hero__now"><span class="visually-hidden">On screen: </span><span class="hero__film">Spotify x Gullak</span></p>
+        <!-- names the film on screen; click it to watch that film -->
+        <a class="hero__film" data-film="cyberdost-phulera" href="https://www.youtube.com/watch?v=r0bzNean0go" rel="noopener"><span class="hero__brand">CyberDost</span> <span class="hero__title">Phulera Mein Cyber Crime ft. Amitabh Bachchan</span></a>
         <button class="hero__pause" type="button">Pause</button>
       </div>
     </section>
 
-    <!-- 2. Our work: Spotify first, playing in place, then every brand -->
+    <!-- 2. Our work, in the agreed order: CyberDost (Amitabh Bachchan), Aamir Khan, Marzi (Suniel Shetty), Spotify, CU, then the rest -->
     <div class="statement-block" id="work" data-nav="work" data-bg="#0b0a08">
-      <p class="eyebrow">Our work</p>
-      <h2 class="statement" id="work-title">Eighteen films for brands, studios and the Government of India, made the way TVF makes its shows.</h2>
+      <h2 class="headline" id="work-title">Our work</h2>
+      <p class="eyebrow">18 films for brands, studios and the Government of India</p>
     </div>
 
-    <!-- The Spotify films play right here, muted until you ask for sound; each one rolls into the next -->
-    <section class="screening" id="spotify" data-nav="work" data-field aria-labelledby="spotify-title">
-      <h3 class="eyebrow" id="spotify-title">Spotify x Gullak, Diwali 2026</h3>
-      <div class="screen">
-        <video class="screen__video" muted playsinline preload="metadata" poster="img/spotify-laddoo-1280.webp" src="../iteration-2/video/spotify-laddoo.mp4" aria-label="Laddoo banana fun banao, Spotify x Gullak"></video>
-        <span class="screen__progress" aria-hidden="true"></span>
-        <button class="screen__sound" type="button" aria-pressed="false">Sound on</button>
-      </div>
-      <p class="screen__line">Three one-minute films with the Mishras from TVF's <em>Gullak</em>. <em>Diwali ki taiyaari fun banao, Spotify chalao.</em></p>
-    </section>
-
-    <!-- Huge names on tints (Getty's Morisot / Monet roll) -->
     <section class="roll" data-nav="work" aria-labelledby="work-title">
-      <article class="brand" data-bg="#0f3b24">
-        <h3 class="huge">Spotify</h3>
-        <a class="film brand__still" data-film="spotify-lights" href="https://www.youtube.com/watch?v=LxK1G7hnbZE" aria-label="Watch Lights lagana fun banao"><img src="../assets/img/work/spotify-lights.webp" alt="" width="960" height="540" loading="lazy"></a>
-        <p class="brand__cap">Spotify x Gullak, Diwali 2026</p>
-        <ul class="brand__films">
-          <li><a class="film" data-film="spotify-laddoo" href="https://www.youtube.com/watch?v=Ll9335RK9R0">Laddoo banana fun banao</a></li>
-          <li><a class="film" data-film="spotify-lights" href="https://www.youtube.com/watch?v=LxK1G7hnbZE">Lights lagana fun banao</a></li>
-          <li><a class="film" data-film="spotify-rangoli" href="https://www.youtube.com/watch?v=LdShwDXhHEY">Rangoli banana fun banao</a></li>
-        </ul>
-      </article>
-
       <article class="brand" data-bg="#12264a">
         <h3 class="huge">CyberDost</h3>
         <a class="film brand__still" data-film="cyberdost-phulera" href="https://www.youtube.com/watch?v=r0bzNean0go" aria-label="Watch Phulera Mein Cyber Crime ft. Amitabh Bachchan"><img src="../assets/img/work/cyberdost-phulera.webp" alt="" width="960" height="540" loading="lazy"></a>
@@ -131,6 +107,42 @@
         <p class="brand__cap">Sitaare Zameen Par, on YouTube</p>
         <ul class="brand__films">
           <li><a class="film" data-film="sitaare-zameen-par" href="https://www.youtube.com/watch?v=GBaRZN8YpH8">Baap-Bete Ki Nayi Scheme</a></li>
+        </ul>
+      </article>
+
+      <article class="brand" data-bg="#2c1a4a">
+        <h3 class="huge">Marzi</h3>
+        <a class="brand__still" href="https://www.instagram.com/reel/Debz-18x0q4/" target="_blank" rel="noopener" aria-label="Watch Find your kind on Instagram"><img src="../assets/img/work/marzi-find-your-kind.webp" alt="" width="960" height="540" loading="lazy"></a>
+        <p class="brand__cap">Marzi Meetups, with Suniel Shetty</p>
+        <ul class="brand__films">
+          <li><a href="https://www.instagram.com/reel/Debz-18x0q4/" target="_blank" rel="noopener">Find your kind ↗<span class="visually-hidden"> (opens Instagram)</span></a></li>
+        </ul>
+      </article>
+    </section>
+
+    <!-- Spotify: the three films play right here, muted until you ask for sound; each one rolls into the next -->
+    <section class="screening" id="spotify" data-nav="work" data-bg="#0f3b24" data-field aria-labelledby="spotify-title">
+      <h3 class="huge" id="spotify-title">Spotify</h3>
+      <div class="screen">
+        <video class="screen__video" muted playsinline preload="metadata" poster="img/spotify-laddoo-1280.webp" src="../iteration-2/video/spotify-laddoo.mp4" aria-label="Laddoo banana fun banao, Spotify x Gullak"></video>
+        <span class="screen__progress" aria-hidden="true"></span>
+        <button class="screen__sound" type="button" aria-pressed="false">Sound on</button>
+      </div>
+      <p class="screen__line">Spotify x Gullak, Diwali 2026: three one-minute films with the Mishras from Gullak. Diwali ki taiyaari fun banao, Spotify chalao.</p>
+      <ul class="brand__films">
+        <li><a class="film" data-film="spotify-laddoo" href="https://www.youtube.com/watch?v=Ll9335RK9R0">Laddoo banana fun banao</a></li>
+        <li><a class="film" data-film="spotify-lights" href="https://www.youtube.com/watch?v=LxK1G7hnbZE">Lights lagana fun banao</a></li>
+        <li><a class="film" data-film="spotify-rangoli" href="https://www.youtube.com/watch?v=LdShwDXhHEY">Rangoli banana fun banao</a></li>
+      </ul>
+    </section>
+
+    <section class="roll" data-nav="work" aria-label="More work">
+      <article class="brand" data-bg="#43111f">
+        <h3 class="huge">CU Online</h3>
+        <a class="film brand__still" data-film="cu-online-banrakas" href="https://www.youtube.com/watch?v=zCt4tXB0suY" aria-label="Watch Banrakas Ka Heist"><img src="../assets/img/work/cu-online-banrakas.webp" alt="" width="960" height="540" loading="lazy"></a>
+        <p class="brand__cap">Chandigarh University Online, with Panchayat's Vikas and Bhushan</p>
+        <ul class="brand__films">
+          <li><a class="film" data-film="cu-online-banrakas" href="https://www.youtube.com/watch?v=zCt4tXB0suY">Banrakas Ka Heist</a></li>
         </ul>
       </article>
 
@@ -153,15 +165,6 @@
         </ul>
       </article>
 
-      <article class="brand" data-bg="#43111f">
-        <h3 class="huge">CU Online</h3>
-        <a class="film brand__still" data-film="cu-online-banrakas" href="https://www.youtube.com/watch?v=zCt4tXB0suY" aria-label="Watch Banrakas Ka Heist"><img src="../assets/img/work/cu-online-banrakas.webp" alt="" width="960" height="540" loading="lazy"></a>
-        <p class="brand__cap">Chandigarh University Online, with Panchayat's Vikas and Bhushan</p>
-        <ul class="brand__films">
-          <li><a class="film" data-film="cu-online-banrakas" href="https://www.youtube.com/watch?v=zCt4tXB0suY">Banrakas Ka Heist</a></li>
-        </ul>
-      </article>
-
       <article class="brand" data-bg="#43123b">
         <h3 class="huge">Wiom</h3>
         <a class="film brand__still" data-film="wiom-two-kids" href="https://drive.google.com/file/d/13i2K9l_GGiNd0cqgOdKI8uhV56eY3rS-/view" aria-label="Watch Two Kids"><img src="../assets/img/work/wiom-two-kids.webp" alt="" width="960" height="540" loading="lazy"></a>
@@ -174,64 +177,95 @@
           <li><a class="film" data-film="wiom-two-kids" href="https://drive.google.com/file/d/13i2K9l_GGiNd0cqgOdKI8uhV56eY3rS-/view">Two Kids</a></li>
         </ul>
       </article>
-
-      <article class="brand" data-bg="#2c1a4a">
-        <h3 class="huge">Marzi</h3>
-        <a class="brand__still" href="https://www.instagram.com/reel/Debz-18x0q4/" target="_blank" rel="noopener" aria-label="Watch Find your kind on Instagram"><img src="../assets/img/work/marzi-find-your-kind.webp" alt="" width="960" height="540" loading="lazy"></a>
-        <p class="brand__cap">Marzi Meetups</p>
-        <ul class="brand__films">
-          <li><a href="https://www.instagram.com/reel/Debz-18x0q4/" target="_blank" rel="noopener">Find your kind ↗<span class="visually-hidden"> (opens Instagram)</span></a></li>
-        </ul>
-      </article>
     </section>
 
-    <!-- 3. Our directors: pinned portrait + huge name + timeline -->
-    <div class="statement-block" data-bg="#221c13" data-nav="directors">
-      <p class="statement">Directed by the people who made <em>Panchayat</em>, <em>TVF Pitchers</em> and <em>Aspirants</em>.</p>
-    </div>
+    <!-- Directors as a production-house roster; on a mouse, the hovered director's portrait follows the pointer -->
+    <section class="people" id="directors" data-nav="directors" data-bg="#221c13" aria-labelledby="directors-title">
+      <div class="people__head">
+        <h2 class="headline" id="directors-title">Our directors</h2>
+        <p class="eyebrow">Their shows, with IMDb ratings</p>
+      </div>
+      <ul class="roster">
+        <li class="roster__row">
+          <img class="roster__face" src="../assets/img/directors/deepak-mishra.webp" alt="" width="309" height="309" loading="lazy">
+          <h3 class="roster__name">Deepak Mishra</h3>
+          <p class="roster__credits">Panchayat <b>9.0</b> · Permanent Roommates <b>8.6</b> · The Vvaan: Force of the Forrest</p>
+          <a class="roster__imdb" href="https://www.imdb.com/name/nm6905588/" target="_blank" rel="noopener">IMDb<span class="visually-hidden">: Deepak Mishra</span></a>
+        </li>
+        <li class="roster__row">
+          <img class="roster__face" src="../assets/img/directors/vaibhav-bundhoo.webp" alt="" width="373" height="373" loading="lazy">
+          <h3 class="roster__name">Vaibhav Bundhoo</h3>
+          <p class="roster__credits">Pitchers <b>9.0</b> · Very Parivarik <b>8.6</b> · The Glitch <b>7.5</b></p>
+          <a class="roster__imdb" href="https://www.imdb.com/name/nm6905589/" target="_blank" rel="noopener">IMDb<span class="visually-hidden">: Vaibhav Bundhoo</span></a>
+        </li>
+        <li class="roster__row">
+          <img class="roster__face" src="../assets/img/directors/deepesh-saumitra-jagdish.webp" alt="" width="335" height="335" loading="lazy">
+          <h3 class="roster__name">Deepesh Saumitra Jagdish</h3>
+          <p class="roster__credits">Aspirants <b>9.1</b> · TSP's Rabish Ki Report <b>8.8</b></p>
+          <a class="roster__imdb" href="https://www.imdb.com/name/nm5523511/" target="_blank" rel="noopener">IMDb<span class="visually-hidden">: Deepesh Saumitra Jagdish</span></a>
+        </li>
+        <li class="roster__row">
+          <img class="roster__face" src="../assets/img/directors/akshat-vijaywargya.webp" alt="" width="480" height="480" loading="lazy">
+          <h3 class="roster__name">Akshat Vijaywargya</h3>
+          <p class="roster__credits">Panchayat <b>9.0</b> · TSP's Rabish Ki Report <b>8.8</b> · The Adventures of Lleo <b>7.8</b></p>
+          <a class="roster__imdb" href="https://www.imdb.com/name/nm12363983/" target="_blank" rel="noopener">IMDb<span class="visually-hidden">: Akshat Vijaywargya</span></a>
+        </li>
+      </ul>
+    </section>
 
-    <section class="scene people" id="directors" data-nav="directors" data-bg="#221c13" style="--len: 5" aria-labelledby="directors-title">
-      <div class="stage">
-        <h2 class="eyebrow people__eyebrow" id="directors-title">Our directors</h2>
-        <div class="people__slides">
-          <figure class="person is-on line">
-            <p class="huge person__name">Deepak Mishra</p>
-            <img src="../assets/img/directors/deepak-mishra.webp" alt="Deepak Mishra" width="309" height="309">
-            <figcaption>Panchayat <b>9.0</b> · Permanent Roommates <b>8.6</b> · The Vvaan: Force of the Forrest · <a href="https://www.imdb.com/name/nm6905588/" target="_blank" rel="noopener">IMDb</a></figcaption>
-          </figure>
-          <figure class="person line">
-            <p class="huge person__name">Vaibhav Bundhoo</p>
-            <img src="../assets/img/directors/vaibhav-bundhoo.webp" alt="Vaibhav Bundhoo" width="373" height="373" loading="lazy">
-            <figcaption>TVF Pitchers <b>9.0</b> · Very Parivarik <b>8.6</b> · The Glitch <b>7.5</b> · <a href="https://www.imdb.com/name/nm6905589/" target="_blank" rel="noopener">IMDb</a></figcaption>
-          </figure>
-          <figure class="person line">
-            <p class="huge person__name">Deepesh Saumitra Jagdish</p>
-            <img src="../assets/img/directors/deepesh-saumitra-jagdish.webp" alt="Deepesh Saumitra Jagdish" width="335" height="335" loading="lazy">
-            <figcaption>Aspirants <b>9.1</b> · TSP's Rabish Ki Report <b>8.8</b> · <a href="https://www.imdb.com/name/nm5523511/" target="_blank" rel="noopener">IMDb</a></figcaption>
-          </figure>
-          <figure class="person line">
-            <p class="huge person__name">Akshat Vijaywargya</p>
-            <img src="../assets/img/directors/akshat-vijaywargya.webp" alt="Akshat Vijaywargya" width="480" height="480" loading="lazy">
-            <figcaption>Panchayat <b>9.0</b> · TSP's Rabish Ki Report <b>8.8</b> · The Adventures of Lleo <b>7.8</b> · <a href="https://www.imdb.com/name/nm12363983/" target="_blank" rel="noopener">IMDb</a></figcaption>
-          </figure>
-        </div>
-        <ol class="timeline" aria-hidden="true">
-          <li>Deepak</li><li>Vaibhav</li><li>Deepesh</li><li>Akshat</li>
-        </ol>
-        <p class="people__note">Numbers are IMDb ratings.</p>
+    <!-- Behind the scenes: frames off the camera cards, rolling past like film through a gate; hover holds a strip -->
+    <section class="bts" id="bts" data-nav="bts" data-bg="#0f0e0c" aria-labelledby="bts-title">
+      <div class="people__head">
+        <h2 class="headline" id="bts-title">Behind the scenes</h2>
+        <p class="eyebrow">Frames from our sets, straight off the camera cards</p>
+      </div>
+      <div class="bts__shoot">
+        <h3 class="bts__label">Marzi <span>September 2026</span></h3>
+        <div class="bts__strip"><ul class="bts__track">
+          <li><img src="img/bts/marzi-dsc00411.webp" alt="The welcome board on the Marzi set: Marzi x Fluid x Fever Films" width="1200" height="802" loading="lazy"><span>DSC00411</span></li>
+          <li><img src="img/bts/marzi-dsc08567.webp" alt="A Fever Films board on set while the crew sets up" width="1200" height="802" loading="lazy"><span>DSC08567</span></li>
+          <li><img src="img/bts/marzi-dsc08561.webp" alt="Camera operator at the monitor" width="1200" height="802" loading="lazy"><span>DSC08561</span></li>
+          <li><img src="img/bts/marzi-dsc08750.webp" alt="Camera operator lining up a shot in the house set" width="1200" height="800" loading="lazy"><span>DSC08750</span></li>
+          <li><img src="img/bts/marzi-dsc08998.webp" alt="Camera rolling on an actor at a writing desk" width="1200" height="800" loading="lazy"><span>DSC08998</span></li>
+          <li><img src="img/bts/marzi-dsc00472.webp" alt="Camera in the foreground, actors on the sofa set" width="1200" height="802" loading="lazy"><span>DSC00472</span></li>
+          <li><img src="img/bts/marzi-dsc09901.webp" alt="The dining room set and crew, from the back of the room" width="1200" height="800" loading="lazy"><span>DSC09901</span></li>
+          <li><img src="img/bts/marzi-dsc09994.webp" alt="Boom and lighting crew setting up" width="1200" height="800" loading="lazy"><span>DSC09994</span></li>
+          <li><img src="img/bts/marzi-dsc08581.webp" alt="Camera team between takes" width="1200" height="802" loading="lazy"><span>DSC08581</span></li>
+        </ul></div>
+      </div>
+      <div class="bts__shoot bts__shoot--back">
+        <h3 class="bts__label">Wiom <span>March 2026</span></h3>
+        <div class="bts__strip"><ul class="bts__track">
+          <li><img src="img/bts/wiom-dsc05504.webp" alt="The house set lit up at night" width="1200" height="802" loading="lazy"><span>DSC05504</span></li>
+          <li><img src="img/bts/wiom-dsc05391.webp" alt="Camera operator checking a shot" width="802" height="1200" loading="lazy"><span>DSC05391</span></li>
+          <li><img src="img/bts/wiom-dsc05459.webp" alt="Crew around the camera" width="1200" height="802" loading="lazy"><span>DSC05459</span></li>
+          <li><img src="img/bts/wiom-dsc05435.webp" alt="Crew working under string lights" width="802" height="1200" loading="lazy"><span>DSC05435</span></li>
+          <li><img src="img/bts/wiom-dsc05243.webp" alt="Camera rig over the operator's shoulder in a street" width="1200" height="802" loading="lazy"><span>DSC05243</span></li>
+          <li><img src="img/bts/wiom-dsc05298.webp" alt="Camera operator on a handheld rig" width="802" height="1200" loading="lazy"><span>DSC05298</span></li>
+        </ul></div>
+      </div>
+      <div class="bts__shoot">
+        <h3 class="bts__label">Aadhar Housing Finance <span>January 2026</span></h3>
+        <div class="bts__strip"><ul class="bts__track">
+          <li><img src="img/bts/aadhar-4z6a9438.webp" alt="Watching the take on the monitor, headphones on" width="1200" height="800" loading="lazy"><span>4Z6A9438</span></li>
+          <li><img src="img/bts/aadhar-4z6a9445.webp" alt="Camera operator shooting inside a car" width="1200" height="800" loading="lazy"><span>4Z6A9445</span></li>
+          <li><img src="img/bts/aadhar-4z6a9458.webp" alt="Blocking a scene with the camera team" width="1200" height="800" loading="lazy"><span>4Z6A9458</span></li>
+          <li><img src="img/bts/aadhar-4z6a9544.webp" alt="Camera and light set up for a shot" width="1200" height="800" loading="lazy"><span>4Z6A9544</span></li>
+          <li><img src="img/bts/aadhar-4z6a9559.webp" alt="Crew watching the takes on monitors" width="1200" height="800" loading="lazy"><span>4Z6A9559</span></li>
+          <li><img src="img/bts/aadhar-dsc00180.webp" alt="Night set with neon lights and the car" width="1200" height="800" loading="lazy"><span>DSC00180</span></li>
+        </ul></div>
       </div>
     </section>
 
-    <!-- 4. IP: the TVF shows brands can step into, on the logo's fever red -->
+    <!-- 4. IP: the shows brands can step into, on the logo's fever red -->
     <section class="ip" id="ip" data-nav="ip" data-bg="#3b0f10" aria-labelledby="ip-title">
       <div class="statement-block">
-        <h2 class="eyebrow" id="ip-title">IP</h2>
-        <p class="statement">Fever Films has exclusive access to TVF's IPs. Your brand can step into the shows, families and towns India already loves.</p>
+        <h2 class="headline" id="ip-title">Fever Films has an exclusive partnership with TVF and their IPs.</h2>
+        <p class="statement">CyberDost went to Phulera. Spotify spent Diwali with the Mishras from Gullak.</p>
       </div>
       <div class="statement-block ip__stat">
         <p class="huge">8 of 14</p>
-        <p class="statement">Indian shows on IMDb's global Top 250 are TVF's.</p>
-        <p class="eyebrow">53M+ followers across the TVF network</p>
+        <p class="statement">Indian shows on IMDb's global Top 250 come from these IPs.</p>
       </div>
       <ul class="ips">
         <li class="ip-row">
@@ -261,7 +295,7 @@
           <div><p class="ip-row__fact">In IMDb's top 10 shows in India, 2022</p></div>
         </li>
         <li class="ip-row">
-          <h3 class="ip-row__name">TVF Pitchers</h3>
+          <h3 class="ip-row__name">Pitchers</h3>
           <div><p class="ip-row__fact">Rated 9.0 on IMDb</p></div>
         </li>
         <li class="ip-row">
@@ -274,11 +308,8 @@
     <!-- Statements on a colour field, then Getty's hairline "Resources" rows -->
     <section class="about" id="about" data-nav="about" data-bg="#d4ae5c" data-tone="light" aria-labelledby="about-title">
       <div class="statement-block">
-        <h2 class="eyebrow" id="about-title">About</h2>
-        <p class="statement">Fever Films is the advertising arm of TVF.</p>
-      </div>
-      <div class="statement-block">
-        <p class="statement">We bring the story-first approach behind <em>Panchayat</em>, <em>Gullak</em> and <em>Aspirants</em> to commercials, digital films and public campaigns.</p>
+        <h2 class="headline" id="about-title">Fever Films makes ads, brand films and public campaigns.</h2>
+        <p class="statement">Directed by the people behind Panchayat, Pitchers and Aspirants.</p>
       </div>
       <div class="statement-block">
         <p class="statement statement--big">10+ films. 150M+ views. Campaigns across 10+ sectors.</p>
@@ -288,7 +319,7 @@
         <div class="row">
           <dt>Why brands work with us</dt>
           <dd><ul>
-            <li>Exclusive access to TVF's IPs, through our strategic partnership with TVF</li>
+            <li>Exclusive access to the IPs above</li>
             <li>A storytelling-first approach that keeps people watching</li>
             <li>End-to-end production, from the idea to the final cut</li>
             <li>An experienced team across commercials and digital content</li>
@@ -308,17 +339,13 @@
 
     <!-- Closing statement with a rotating word (Getty's ending) -->
     <section class="closing" id="contact" data-nav="contact" data-field aria-labelledby="contact-title">
-      <p class="eyebrow">Contact</p>
-      <h2 class="headline" id="contact-title">A story-first studio for
-        <span class="rotator"><span class="is-on">brands.</span><span>governments.</span><span>studios.</span><span>platforms.</span></span>
-      </h2>
-      <a class="pill pill--dark" href="mailto:hello@feverfilms.co?subject=Brief%20for%20Fever%20Films">Email a brief</a>
+      <h2 class="headline" id="contact-title">Got a brief?</h2>
+      <a class="closing__mail" href="mailto:hello@feverfilms.co?subject=Brief%20for%20Fever%20Films">hello@feverfilms.co</a>
       <dl class="rows rows--small">
-        <div class="row"><dt>Email</dt><dd><a href="mailto:hello@feverfilms.co">hello@feverfilms.co</a></dd></div>
         <div class="row"><dt>Follow</dt><dd><a href="https://www.instagram.com/fever_films/" target="_blank" rel="noopener">Instagram</a> · <a href="https://www.linkedin.com/company/fever-films-india/" target="_blank" rel="noopener">LinkedIn</a></dd></div>
-        <div class="row"><dt>Explore</dt><dd><a href="#work">Work</a> · <a href="#directors">Directors</a> · <a href="#ip">IP</a> · <a href="#about">About</a></dd></div>
+        <div class="row"><dt>Explore</dt><dd><a href="#work">Work</a> · <a href="#directors">Directors</a> · <a href="#bts">BTS</a> · <a href="#ip">IP</a> · <a href="#about">About</a></dd></div>
       </dl>
-      <p class="copy">© Fever Films 2026 · the advertising arm of TVF</p>
+      <p class="copy">© Fever Films 2026</p>
     </section>
   </main>
 

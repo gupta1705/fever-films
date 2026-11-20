@@ -18,6 +18,44 @@ colours and the lightbox. Iteration 2 stays untouched in `iteration-2/`.
 The red notes on the board (props, Delhi warehouse, 4–5 hours) read as production notes, not site
 content, so they are left out.
 
+## Round 2 (feedback: "looks very AI, the font style, the way it's written")
+
+- Type: the condensed Imbue serif, the gilt gradient on big names and the italic gold accents are
+  gone. It is now Host Grotesk only: bold and tight for names and headings, flat gold for the big names.
+- Hero: no headline or eyebrow over the montage, like 1st December. The only text is a credit line
+  naming the film on screen (brand + title, taken from the film data). Clicking it opens that film.
+- Copy: plain and specific. "Our work", "Our directors", "Your brand, in a TVF show" (CyberDost went
+  to Phulera; Spotify spent Diwali with the Mishras), "Got a brief?" with the email. The rotating
+  "A story-first studio for…" line is gone.
+- Directors: a roster, not the pinned stage. This change is shared with iteration 2.
+- Phones: brands in the Work roll sit 7vh apart instead of 14vh.
+
+## Round 3 (team notes, 2026-11-20)
+
+- Visual order, everywhere films are shown: Amitabh Bachchan (CyberDost), Aamir Khan (Sitaare Zameen
+  Par), Suniel Shetty (Marzi), Spotify, CU Online, then the other ads. The montage is recut in that
+  order (15 cuts, 18 s). The Work list follows it too. Spotify's entry is the three films playing in
+  place, so the Work list now runs CyberDost → Aamir Khan Productions → Marzi → Spotify (playing) →
+  CU Online → UltraTech → Aadhar → Wiom.
+- TVF is named once: "Fever Films has an exclusive partnership with TVF and their IPs." (the IP
+  heading). Every other mention is gone: title, meta, "advertising arm of TVF", "TVF's shows", "TVF
+  network", "TVF Pitchers" (now "Pitchers") and the footer.
+
+## Behind the scenes (added 2026-11-20)
+
+The section sits between Directors and IP, and the nav has a "BTS" link to it. It has three strips
+of photos from the sets: Marzi (September 2026, three shoot days), Wiom (March 2026) and Aadhar
+Housing Finance (January 2026). Each strip rolls slowly sideways like film through a gate. Hover holds
+a strip; with reduced motion on, the strips don't roll and scroll by hand instead. Each photo carries
+its camera frame number.
+
+Source: four BTS folders on Drive, all raw camera-card dumps, about 5,400 files and 245 GB. Only 21
+photos are used. They were picked by eye from contact sheets of Drive previews and pulled at 1600px
+through Drive's preview endpoint, not the 7–19 MB originals. They are saved as 1200px WebPs in
+`iteration-3/img/bts/`, about 1 MB in total. The Wiom stills were shot flat, so they get an
+auto-contrast lift. The BTS video clips are left out. They are 100 MB–2 GB camera originals, and the
+"CAM-B" Wiom and Marzi clips look like B-camera takes rather than BTS.
+
 ## Opening animation
 
 The opening starts from the "Brief Box" concept artifact ("Fever rising": mercury line plus temperature
