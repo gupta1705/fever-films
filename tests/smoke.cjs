@@ -1,4 +1,4 @@
-// Smoke test: pages load clean, local assets resolve, lightbox works, nothing overflows on a phone.
+// Smoke test: pages load clean, local assets resolve (HEAD, so big videos don't time out), lightbox works, nothing overflows on a phone.
 // Run: python -m http.server 8765   then   NODE_PATH="$(npm root -g)" node tests/smoke.cjs
 const assert = require('node:assert/strict');
 const { chromium } = require('playwright');
@@ -32,7 +32,7 @@ const PAGES = ['index.html', 'work.html', 'directors.html', 'about.html', 'conta
       .flatMap((e) => [e.getAttribute('src'), e.getAttribute('href'), e.getAttribute('poster')])
       .filter((u) => u && !/^(https?:|mailto:|#)/.test(u)));
     for (const u of new Set(local)) {
-      const res = await page.request.get(`${BASE}/${u}`);
+      const res = await page.request.head(`${BASE}/${u}`);
       assert.equal(res.status(), 200, `${p}: ${u} missing`);
     }
   }
@@ -74,7 +74,7 @@ const PAGES = ['index.html', 'work.html', 'directors.html', 'about.html', 'conta
   const local2 = await page.$$eval('[src],[href]', (els) => els
     .flatMap((e) => [e.getAttribute('src'), e.getAttribute('href')])
     .filter((u) => u && !/^(https?:|mailto:|#)/.test(u)));
-  for (const u of new Set(local2)) assert.equal((await page.request.get(new URL(u, V2).href)).status(), 200, `v2: ${u} missing`);
+  for (const u of new Set(local2)) assert.equal((await page.request.head(new URL(u, V2).href)).status(), 200, `v2: ${u} missing`);
   assert.equal(await page.locator('.field__item img').count(), 22, 'v2: field stills');
   assert.equal(await page.locator('.nav a.is-on').count(), 0, 'v2: no section underlined on the intro');
   await page.evaluate(() => scrollTo(0, document.getElementById('spotify').offsetTop));
@@ -128,14 +128,15 @@ const PAGES = ['index.html', 'work.html', 'directors.html', 'about.html', 'conta
   const local3 = await page.$$eval('[src],[href],[poster]', (els) => els
     .flatMap((e) => [e.getAttribute('src'), e.getAttribute('href'), e.getAttribute('poster')])
     .filter((u) => u && !/^(https?:|mailto:|#)/.test(u)));
-  for (const u of new Set(local3)) assert.equal((await page.request.get(new URL(u, V3).href)).status(), 200, `v3: ${u} missing`);
+  for (const u of new Set(local3)) assert.equal((await page.request.head(new URL(u, V3).href)).status(), 200, `v3: ${u} missing`);
   assert.deepEqual(await page.$$eval('main > [id]', (els) => els.map((e) => e.id)), ['top', 'work', 'spotify', 'directors', 'bts', 'ip', 'about', 'contact'], 'v3: montage, work, directors, BTS, IP');
   assert.equal(await page.locator('.bts__track li:not([aria-hidden]) img').count(), 21, 'v3: 21 BTS photos');
   assert.equal(await page.locator('.bts__track li[aria-hidden] img').count(), 21, 'v3: BTS strips loop (cloned set)');
-  // play through to the third cut rather than seek: python's http.server has no range requests, so seeks snap to 0
+  // no seeking (python's http.server has no range requests): wait until the caption matches whatever cut is on
+  // screen, past the first one so we know it has changed at least once
   await page.waitForFunction(() => {
-    const t = document.querySelector('.hero__video').currentTime;
-    return t > CUTS[2][0] + 0.4 && t < CUTS[3][0] && document.querySelector('.hero__film').dataset.film === CUTS[2][1];
+    const t = document.querySelector('.hero__video').currentTime, i = CUTS.findLastIndex(([at]) => t >= at);
+    return i > 0 && t > CUTS[i][0] + 0.3 && (i + 1 === CUTS.length || t < CUTS[i + 1][0]) && document.querySelector('.hero__film').dataset.film === CUTS[i][1];
   }, null, { timeout: 25000 }).catch(() => assert.fail('v3: caption names the film on screen'));
   await page.locator('.hero__pause').click();
   assert.ok(await page.evaluate(() => document.querySelector('.hero__video').paused), 'v3: montage pauses');
