@@ -1,4 +1,4 @@
-// Fever Films, iteration 2: a Getty "Tracing Art" style scroll story. No framework; Lenis smooths the scroll.
+// Fever Films: logo opening, film montage, then work, directors, behind the scenes and IP. No framework; Lenis smooths the scroll.
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -18,25 +18,25 @@ const BRIEF = {
 };
 const CYBER = 'CyberDost, I4C, Ministry of Home Affairs';
 const FILMS = {
+  'cyberdost-phulera': { client: CYBER, title: 'Phulera Mein Cyber Crime ft. Amitabh Bachchan', brief: BRIEF.cyberdost, ...yt('r0bzNean0go') },
+  'cyberdost-phulera-2': { client: CYBER, title: 'Phulera Mein Cyber Crime, Part 2', brief: BRIEF.cyberdost, ...yt('rZuU2rsYM5M') },
+  'sitaare-zameen-par': { client: 'Aamir Khan Productions', title: 'Sitaare Zameen Par on YouTube: Baap-Bete Ki Nayi Scheme', brief: BRIEF.sitaare, ...yt('GBaRZN8YpH8') },
+  // Marzi's account blocks Instagram embeds, so it opens on Instagram instead of the lightbox
+  'marzi-find-your-kind': { client: 'Marzi', title: 'Find your kind ft. Suniel Shetty', href: 'https://www.instagram.com/reel/Debz-18x0q4/' },
   'spotify-laddoo': { client: 'Spotify x Gullak', title: 'Laddoo banana fun banao', brief: BRIEF.spotify, ...yt('Ll9335RK9R0') },
   'spotify-lights': { client: 'Spotify x Gullak', title: 'Lights lagana fun banao', brief: BRIEF.spotify, ...yt('LxK1G7hnbZE') },
   'spotify-rangoli': { client: 'Spotify x Gullak', title: 'Rangoli banana fun banao', brief: BRIEF.spotify, ...yt('LdShwDXhHEY') },
-  'cyberdost-phulera': { client: CYBER, title: 'Phulera Mein Cyber Crime ft. Amitabh Bachchan', brief: BRIEF.cyberdost, ...yt('r0bzNean0go') },
-  'cyberdost-phulera-2': { client: CYBER, title: 'Phulera Mein Cyber Crime, Part 2', brief: BRIEF.cyberdost, ...yt('rZuU2rsYM5M') },
+  'cu-online-banrakas': { client: 'Chandigarh University Online', title: 'Banrakas Ka Heist ft. Vikas & Bhushan', brief: BRIEF.cu, ...yt('zCt4tXB0suY') },
   'cyberdost-scam-calls': { client: CYBER, title: 'Aise calls aapko bhi aa rahe hain?', brief: BRIEF.cyberdost, ...yt('7wTnUXZS5Eg') },
   'cyberdost-panchayat': { client: CYBER, title: 'Amitabh Bachchan and the Panchayat team', brief: BRIEF.cyberdost, ...yt('AOBFfhWHu4o') },
-  'sitaare-zameen-par': { client: 'Aamir Khan Productions', title: 'Sitaare Zameen Par on YouTube: Baap-Bete Ki Nayi Scheme', brief: BRIEF.sitaare, ...yt('GBaRZN8YpH8') },
   'ultratech-ek-ghar': { client: 'UltraTech Cement', title: 'Ek Ghar Banaunga', brief: BRIEF.ultratech, ...yt('gmoEBbsfT30') },
   'aadhar-ghar-le-lo': { client: 'Aadhar Housing Finance', title: 'Ghar Le Lo: Sawaal Nahi, Saath Pao', brief: BRIEF.aadhar, ...yt('5IEB6-KknoI') },
   'aadhar-daga-seth': { client: 'Aadhar Housing Finance', title: 'Ghar Le Lo: Daga Seth Ka Challenge', brief: BRIEF.aadhar, ...yt('cd1QVHG54hs') },
-  'cu-online-banrakas': { client: 'Chandigarh University Online', title: 'Banrakas Ka Heist ft. Vikas & Bhushan', brief: BRIEF.cu, ...yt('zCt4tXB0suY') },
   'wiom-ek-kahani': { client: 'Wiom', title: 'Ek Kahani', brief: BRIEF.wiom, ...yt('h2tKQ756nMs') },
   'wiom-recharge': { client: 'Wiom', title: 'Recharge Waala Ghar Ka Net', brief: BRIEF.wiom, ...yt('J-zpxYp87gU') },
   'wiom-newly-wed': { client: 'Wiom', title: 'Newly Wed', brief: BRIEF.wiom, ...drive('1zf1lv6_4J2HLRiSjgAY6XWjn7hT7jcsL') },
   'wiom-preeti-guddu': { client: 'Wiom', title: 'Preeti & Guddu', brief: BRIEF.wiom, ...drive('1lx2TFdIUFplOWQJP9y_XbMSNTu5r7Rps') },
   'wiom-two-kids': { client: 'Wiom', title: 'Two Kids', brief: BRIEF.wiom, ...drive('13i2K9l_GGiNd0cqgOdKI8uhV56eY3rS-') },
-  // Marzi's account blocks Instagram embeds, so it opens on Instagram instead of the lightbox
-  'marzi-find-your-kind': { client: 'Marzi', title: 'Find your kind', href: 'https://www.instagram.com/reel/Debz-18x0q4/' },
 };
 
 // ---------- lightbox ----------
@@ -84,8 +84,8 @@ let seed = 11;
 const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647; // deterministic so the layout never jumps
 const fieldEl = $('.field');
 const pool = [
-  ...Object.keys(FILMS).map((k) => ({ src: `../assets/img/work/${k}.webp`, film: k })),
-  ...['deepak-mishra', 'vaibhav-bundhoo', 'deepesh-saumitra-jagdish', 'akshat-vijaywargya'].map((k) => ({ src: `../assets/img/directors/${k}.webp`, portrait: true })),
+  ...Object.keys(FILMS).map((k) => ({ src: `img/work/${k}.webp`, film: k })),
+  ...['deepak-mishra', 'vaibhav-bundhoo', 'deepesh-saumitra-jagdish', 'akshat-vijaywargya'].map((k) => ({ src: `img/directors/${k}.webp`, portrait: true })),
   ...Array.from({ length: 10 }, () => null),
 ];
 for (let i = pool.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [pool[i], pool[j]] = [pool[j], pool[i]]; }
@@ -111,6 +111,13 @@ const items = pool.map((p, i) => {
   }
   fieldEl.append(el);
   return { el, d, y: i / pool.length + rnd() * 0.04 };
+});
+
+// ---------- behind the scenes: each strip rolls on a loop; a cloned set hides the seam (reduced motion: scroll by hand) ----------
+if (!reduce) $$('.bts__track').forEach((track) => {
+  const photos = [...track.children];
+  photos.forEach((li) => { const copy = li.cloneNode(true); copy.setAttribute('aria-hidden', 'true'); track.append(copy); });
+  track.style.setProperty('--dur', `${photos.length * 7}s`);
 });
 
 // ---------- directors roster: on a mouse, the hovered director's portrait follows the pointer ----------
@@ -152,7 +159,7 @@ let maxScroll = 1;
 const measure = () => { maxScroll = Math.max(1, document.documentElement.scrollHeight - innerHeight); };
 
 // ---------- mood: whatever sits at mid-screen sets the background, the field, the logo tone and the active link ----------
-const moodEls = $$('[data-bg], [data-field]');
+const moodEls = $$('main [data-bg], main [data-field]'); // main only: the viewer's [data-field] slots aren't sections
 let lastBg = '', lastNav;
 function mood(vh) {
   let bg = '#0b0a08', on = false, light = false, nav = null;
@@ -177,7 +184,7 @@ function mood(vh) {
 
 // ---------- reveal brand blocks as they arrive ----------
 const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -12% 0px' });
-$$('.brand').forEach((b) => io.observe(b));
+$$('.brand, .ip-row').forEach((b) => io.observe(b));
 
 // ---------- smooth scroll, phone menu, anchors ----------
 const lenis = !reduce && window.Lenis ? new window.Lenis({ lerp: 0.085 }) : null;
@@ -200,14 +207,6 @@ document.addEventListener('click', (e) => {
   if (lenis) lenis.scrollTo(target, { duration: 1.8 });
   else target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
 });
-
-// ---------- rotating word in the closing line ----------
-const words = $$('.rotator span');
-if (!reduce) setInterval(() => {
-  const i = words.findIndex((w) => w.classList.contains('is-on'));
-  words[i].classList.remove('is-on');
-  words[(i + 1) % words.length].classList.add('is-on');
-}, 2400);
 
 // ---------- one loop ----------
 let mx = 0, tmx = 0;
@@ -234,8 +233,99 @@ function frame(t) {
 }
 requestAnimationFrame(frame);
 
-// ---------- loader, then deep link ----------
-const done = () => $('.loader').classList.add('is-done');
-if (reduce) done(); else { addEventListener('load', done); setTimeout(done, 2200); }
+// ---------- hero: the montage loops while on screen; the caption names the film you're looking at ----------
+const hero = $('.hero__video'), heroFilm = $('.hero__film'), pauseBtn = $('.hero__pause');
+const opening = $('.opening');
+// [start second, film] for each 1.2 s cut in video/montage.mp4, same order as scripts/make-montage.sh
+const CUTS = [
+  'cyberdost-phulera', 'cyberdost-phulera-2', 'sitaare-zameen-par', 'marzi-find-your-kind', 'spotify-lights', 'spotify-laddoo',
+  'spotify-rangoli', 'spotify-lights', 'cu-online-banrakas', 'cu-online-banrakas', 'ultratech-ek-ghar', 'wiom-two-kids',
+  'aadhar-daga-seth', 'wiom-preeti-guddu', 'cyberdost-scam-calls',
+].map((film, i) => [i * 1.2, film]);
+let heroHeld = reduce; // reduced motion: the montage waits for Play
+const heroPlay = () => { if (!heroHeld && !opening.isConnected) hero.play().catch(() => {}); };
+function holdHero(held) {
+  heroHeld = held;
+  pauseBtn.textContent = held ? 'Play' : 'Pause';
+  held ? hero.pause() : heroPlay();
+}
+holdHero(heroHeld);
+pauseBtn.addEventListener('click', () => holdHero(!heroHeld));
+hero.addEventListener('timeupdate', () => {
+  const slug = CUTS.findLast(([at]) => hero.currentTime >= at)[1], f = FILMS[slug];
+  if (heroFilm.dataset.film === slug) return;
+  Object.assign(heroFilm, { href: f.href, target: f.embed ? '' : '_blank' }); // Marzi opens on Instagram
+  heroFilm.dataset.film = slug;
+  $('.hero__brand', heroFilm).textContent = f.client.split(',')[0];
+  $('.hero__title', heroFilm).textContent = f.title;
+});
+new IntersectionObserver(([e]) => (e.isIntersecting ? heroPlay() : hero.pause())).observe(hero);
+
+// ---------- opening: "How is your fever?" on black; the mercury climbs to 103°F, drops into the logo, the logo flies to the top bar ----------
+let openRaf = 0;
+function endOpening() {
+  if (!opening.isConnected) return;
+  cancelAnimationFrame(openRaf);
+  opening.remove();
+  document.documentElement.classList.remove('is-opening');
+  removeEventListener('keydown', endOpening);
+  lenis?.start();
+  heroPlay();
+}
+function playOpening() {
+  history.scrollRestoration = 'manual';
+  scrollTo(0, 0);
+  document.documentElement.classList.add('is-opening');
+  lenis?.stop();
+  opening.addEventListener('click', endOpening);
+  addEventListener('keydown', endOpening);
+  const [line, temp, logo, q] = ['.opening__line', '.opening__temp', '.opening__logo', '.opening__q'].map((s) => $(s, opening));
+  const [word, films, tube, merc] = ['.lg-word', '.lg-films', '.lg-tube', '.lg-merc'].map((s) => $(s, logo));
+  // logo units to px: the viewBox is 504 x 100 from (83, 120); its mercury bar runs x 101.8-139.6, y 178.1-182
+  const vw = innerWidth, mid = innerHeight / 2;
+  const W = Math.min(vw * 0.8, 660), k = W / 504, L = (vw - W) / 2, T = mid - 60 * k; // mercury sits on the midline
+  logo.setAttribute('width', W);
+  logo.setAttribute('height', 100 * k);
+  logo.style.transform = `translate(${L}px, ${T}px)`;
+  q.style.top = `${mid + 44 * k + 26}px`;
+  const bar = { x: L + 18.8 * k, y: T + 58.1 * k, w: 37.8 * k, h: 3.9 * k };
+  const mark = $('.mark__on-dark').getBoundingClientRect(), tw = temp.offsetWidth;
+  const ease = (u) => (u < 0.5 ? 4 * u ** 3 : 1 - (-2 * u + 2) ** 3 / 2), out = (u) => 1 - (1 - u) ** 2, lerp = (a, b, u) => a + (b - a) * u;
+  temp.style.opacity = 1;
+  let t0;
+  const tick = (now) => {
+    t0 ??= now;
+    const t = now - t0;
+    if (t < 1700) { // the line climbs across the screen, the readout riding its tip
+      const p = ease(clamp((t - 250) / 1450));
+      line.style.transform = `translate(0, ${mid - 3}px) scaleX(${p})`;
+      temp.textContent = `${(98.6 + 4.4 * p).toFixed(1)}°F`;
+      temp.style.transform = `translate(${clamp(p * vw - tw - 12, 16, vw - tw - 16)}px, ${mid - 34}px)`;
+    } else { // ...then drops into the logo's mercury
+      const u = ease(clamp((t - 1700) / 320));
+      line.style.transform = `translate(${lerp(0, bar.x, u)}px, ${lerp(mid - 3, bar.y, u)}px) scale(${lerp(1, bar.w / vw, u)}, ${lerp(1, bar.h / 6, u)})`;
+      temp.style.opacity = 1 - clamp((t - 1700) / 200);
+      if (t >= 2020) { line.style.opacity = 0; tube.style.opacity = merc.style.opacity = 1; }
+    }
+    if (t >= 2020) { // FEVER lands, FILMS follows
+      const w = clamp((t - 2020) / 380);
+      word.style.opacity = clamp(w * 3);
+      word.style.transform = `scale(${w < 0.6 ? lerp(1.08, 0.98, out(w / 0.6)) : lerp(0.98, 1, (w - 0.6) / 0.4)})`;
+    }
+    if (t >= 2250) { const f = clamp((t - 2250) / 320); films.style.opacity = f; films.style.transform = `translateY(${(1 - out(f)) * 6}px)`; }
+    if (t >= 2950) { // hold, then the logo flies to the top bar and the black lifts off the montage
+      const g = ease(clamp((t - 2950) / 520));
+      logo.style.transform = `translate(${lerp(L, mark.left, g)}px, ${lerp(T, mark.top, g)}px) scale(${lerp(1, mark.width / W, g)})`;
+      opening.style.setProperty('--black', 1 - g);
+      q.style.opacity = 1 - clamp(g * 2.5);
+    }
+    if (t >= 3500) endOpening();
+    else openRaf = requestAnimationFrame(tick);
+  };
+  tick(performance.now());
+}
+
+// a link to a section or a film skips the opening
+if (reduce || location.hash) endOpening(); else playOpening();
 const linked = location.hash.slice(1);
 if (FILMS[linked]?.embed) { show(linked); box.showModal(); }

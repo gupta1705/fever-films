@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Cuts iteration 3's hero montage: motion clips seeked remotely from the public Drive masters, plus slow
-# push-ins on the stills of films that are only on YouTube. Order must match CUTS in iteration-3/app.js.
+# push-ins on the stills of films that are only on YouTube. Order must match CUTS in app.js.
 # Usage: bash scripts/make-montage.sh <empty work dir>
 set -euo pipefail
 FF="C:/Users/gupta/AppData/Roaming/npm/node_modules/ffmpeg-static/ffmpeg.exe"
@@ -24,13 +24,13 @@ for c in "${CUTS[@]}"; do set -- $c; i=$((i+1)); out="$(echo "$*" | tr -c 'A-Za-
       sleep 3
     done
   else
-    "$FF" -hide_banner -loglevel error -y -loop 1 -framerate 25 -t $LEN -i "$ROOT/assets/img/work/$2.webp" \
+    "$FF" -hide_banner -loglevel error -y -loop 1 -framerate 25 -t $LEN -i "$ROOT/img/work/$2.webp" \
       -vf "scale=2560:1440,zoompan=z='1.04+0.0018*on':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s=1280x720:fps=25,setsar=1" "${ENC[@]}" "$out"
   fi
   [ -s "$out" ] || { echo "cut $i failed"; exit 1; }
   echo "file '$out'" >> list.txt; echo "cut $i done"
 done
 "$FF" -hide_banner -loglevel error -y -f concat -safe 0 -i list.txt -an \
-  -c:v libx264 -crf 27 -preset slow -profile:v high -pix_fmt yuv420p -movflags +faststart "$ROOT/iteration-3/video/montage.mp4"
-"$FF" -hide_banner -loglevel error -y -ss 0.3 -i "$ROOT/iteration-3/video/montage.mp4" -frames:v 1 -c:v libwebp -quality 72 "$ROOT/iteration-3/img/montage.webp"
-ls -la "$ROOT/iteration-3/video/montage.mp4" "$ROOT/iteration-3/img/montage.webp"
+  -c:v libx264 -crf 27 -preset slow -profile:v high -pix_fmt yuv420p -movflags +faststart "$ROOT/video/montage.mp4"
+"$FF" -hide_banner -loglevel error -y -ss 0.3 -i "$ROOT/video/montage.mp4" -frames:v 1 -c:v libwebp -quality 72 "$ROOT/img/montage.webp"
+ls -la "$ROOT/video/montage.mp4" "$ROOT/img/montage.webp"

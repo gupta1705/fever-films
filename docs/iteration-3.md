@@ -1,8 +1,25 @@
 # Iteration 3: the whiteboard flow
 
-Iteration 3 lives in `iteration-3/` and keeps iteration 2's look. That means black and gold, Imbue and
-Host Grotesk, the simple nav, the "Email a brief" button that never leaves the screen, per-chapter
-colours and the lightbox. Iteration 2 stays untouched in `iteration-2/`.
+**Status (2026-11-21):** iteration 3 is the only site and lives at the repo root (`index.html`,
+`style.css`, `app.js`, `img/`, `video/`). Iterations 1 and 2 were removed by request. They are still in
+git history, before commit "Make iteration 3 the site", and iteration 1 is also tagged `iteration-1`.
+`iteration-3/index.html` is only a forwarder: it sends old `/iteration-3/` links, and any `#film` on them,
+to the root.
+
+It started from iteration 2's look. That means black and gold, the simple nav, the "Email a brief"
+button that never leaves the screen, per-chapter colours and the lightbox.
+
+## Round 5 (2026-11-21)
+
+- Feedback: "the side elements are only in the Spotify ad, not others". That means the drifting side
+  cutouts (film stills and gold placeholder rectangles) should be behind **every** brand in Work, not
+  removed. A film-grid version was tried and dropped. Work is the colour-changing brand roll: CyberDost →
+  Aamir Khan Productions → Marzi → Spotify (its three films playing in place) → CU Online → UltraTech →
+  Aadhar → Wiom. Each brand has its own background colour, and the cutouts drift behind all of them, as
+  on Contact. On phones the cutouts hang off the screen edges so they never cover a film.
+- The viewer's prev/next order runs by who is on screen. First come the two CyberDost films with Amitabh
+  Bachchan, then Aamir Khan, Suniel Shetty, Spotify and CU. The other two CyberDost films follow with
+  the rest of the ads.
 
 ## Whiteboard flow → site
 
@@ -76,8 +93,8 @@ the script never runs, a CSS failsafe hides the black layer after 7 s.
 
 The cut list in `app.js` (`CUTS`) must match the script's order. It drives the "on screen" caption.
 
-Shared media: the Spotify films are read from `../iteration-2/video/` (about 20 MB, not copied).
-Deleting iteration 2 breaks iteration 3's screening.
+Media: film stills are in `img/work/`, portraits in `img/directors/`, BTS photos in `img/bts/`, and the
+montage in `video/`. The Spotify films now play from YouTube in the viewer like every other film.
 
 ## Check (2026-11-19)
 
