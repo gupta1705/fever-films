@@ -21,6 +21,30 @@ button that never leaves the screen, per-chapter colours and the lightbox.
   Bachchan, then Aamir Khan, Suniel Shetty, Spotify and CU. The other two CyberDost films follow with
   the rest of the ads.
 
+## Round 6 (2026-11-21): all directors, new top of the page
+
+- **Directors.** All eight from the team's list, in its order: Deepak Mishra (I4C CyberDost), Vaibhav
+  Bundhoo (Aamir Khan Productions), Deepesh Saumitra Jagdish (Aadhar Housing), Parth Manocha (Wiom),
+  Akshat Vijaywargya (UltraTech, upGrad), Anand Iyer (Marzi), Raghav Subbu (Spotify) and Deeksha
+  Tripathi (Kalamandir, in production).
+  - Each row opens with "For Fever:", linking the film they directed.
+  - Outside credits and IMDb links appear only where they could be checked. Raghav Subbu's come from
+    IMDb (Kota Factory, Hostel Daze, F.A.T.H.E.R.S.). Parth, Anand and Deeksha show their Fever work only.
+  - The four without a portrait yet get an initials card.
+  - Spellings: the team list wrote "Vaibhav Bandhu", "Akshat Vijayvargiya" and "Raghav Suboo". The site
+    keeps the deck/IMDb spellings Bundhoo and Vijaywargya, and uses Subbu, as on IMDb.
+- Each Work brand's caption, the Spotify line and the film viewer now say "Directed by …". CU Online
+  isn't on the team's list, so it has no credit.
+- The "Click a film to watch it" pill is gone.
+- **Top of the page, rebuilt.**
+  - Nav: one floating glass capsule holding the logo, the sections and the gold "Email a brief" pill. A
+    highlight slides to the hovered link and rests on the section you're in. On phones the capsule holds
+    the logo and Menu, and the brief button floats at the bottom.
+  - Hero: the montage plays on a framed screen inset 10px with rounded corners. Over it sits a "Now
+    showing" block with a red live dot, the brand in large type and the film title, which links to the
+    film. Beside that are a cut counter (03 / 15) and a round pause button. Along the bottom runs a
+    segmented progress bar with one segment per cut.
+
 ## Whiteboard flow → site
 
 | Whiteboard | Site |

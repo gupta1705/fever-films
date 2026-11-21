@@ -17,6 +17,9 @@ const BRIEF = {
   wiom: 'Stories of struggle and aspiration that show Recharge Waala Ghar Ka Net as smart, hassle-free home internet you recharge on your own terms.',
 };
 const CYBER = 'CyberDost, I4C, Ministry of Home Affairs';
+// who directed each brand's films, from the team's list (CU Online: not on it yet)
+const DIRECTED_BY = { cyberdost: 'Deepak Mishra', sitaare: 'Vaibhav Bundhoo', aadhar: 'Deepesh Saumitra Jagdish', wiom: 'Parth Manocha',
+  ultratech: 'Akshat Vijaywargya', marzi: 'Anand Iyer', spotify: 'Raghav Subbu' };
 const FILMS = {
   'cyberdost-phulera': { client: CYBER, title: 'Phulera Mein Cyber Crime ft. Amitabh Bachchan', brief: BRIEF.cyberdost, ...yt('r0bzNean0go') },
   'cyberdost-phulera-2': { client: CYBER, title: 'Phulera Mein Cyber Crime, Part 2', brief: BRIEF.cyberdost, ...yt('rZuU2rsYM5M') },
@@ -55,6 +58,8 @@ function show(slug) {
   field('client').textContent = f.client;
   field('title').textContent = f.title;
   field('desc').textContent = f.brief;
+  const by = DIRECTED_BY[slug.split('-')[0]];
+  field('director').textContent = by ? ` · Directed by ${by}` : '';
   field('link').href = f.href;
   field('link').textContent = `Watch on ${f.platform}`;
   history.replaceState(null, '', `#${slug}`);
@@ -178,7 +183,7 @@ function mood(vh) {
   }
   document.body.classList.toggle('field-on', on);
   document.body.classList.toggle('tone-light', light);
-  if (nav !== lastNav) { lastNav = nav; navLinks.forEach((a) => a.classList.toggle('is-on', a.hash === `#${nav}`)); }
+  if (nav !== lastNav) { lastNav = nav; navLinks.forEach((a) => a.classList.toggle('is-on', a.hash === `#${nav}`)); placePill($('.nav a.is-on')); }
   return on;
 }
 
@@ -196,6 +201,14 @@ function openMenu(open) {
   if (lenis) open ? lenis.stop() : lenis.start();
 }
 toggle.addEventListener('click', () => openMenu(!navEl.classList.contains('is-open')));
+
+// the highlight slides to the hovered link and comes back to rest on the section you're in
+function placePill(a) {
+  navEl.style.setProperty('--pill-o', a ? 1 : 0);
+  if (a) { navEl.style.setProperty('--pill-x', `${a.offsetLeft}px`); navEl.style.setProperty('--pill-w', `${a.offsetWidth}px`); }
+}
+navEl.addEventListener('pointerover', (e) => { const a = e.target.closest('a'); if (a) placePill(a); });
+navEl.addEventListener('pointerleave', () => placePill($('.nav a.is-on')));
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') openMenu(false); });
 document.addEventListener('click', (e) => {
   const a = e.target.closest('a[href^="#"]');
@@ -220,6 +233,7 @@ function frame(t) {
   const y = scrollY, vh = innerHeight;
   const fieldOn = mood(vh);
   progress.style.transform = `scaleX(${clamp(y / maxScroll).toFixed(4)})`;
+  heroTick();
   if (fieldOn) {
     mx += (tmx - mx) * 0.06;
     const loop = vh * 2.6;
@@ -246,19 +260,35 @@ let heroHeld = reduce; // reduced motion: the montage waits for Play
 const heroPlay = () => { if (!heroHeld && !opening.isConnected) hero.play().catch(() => {}); };
 function holdHero(held) {
   heroHeld = held;
-  pauseBtn.textContent = held ? 'Play' : 'Pause';
+  pauseBtn.classList.toggle('is-held', held);
+  pauseBtn.setAttribute('aria-label', held ? 'Play the showreel' : 'Pause the showreel');
   held ? hero.pause() : heroPlay();
 }
 holdHero(heroHeld);
 pauseBtn.addEventListener('click', () => holdHero(!heroHeld));
-hero.addEventListener('timeupdate', () => {
-  const slug = CUTS.findLast(([at]) => hero.currentTime >= at)[1], f = FILMS[slug];
+const segs = CUTS.map(() => document.createElement('li')), count = $('.hero__count');
+$('.hero__cuts').append(...segs);
+count.lastChild.textContent = ` / ${CUTS.length}`;
+let cutNow = -1;
+// each frame: which cut is on screen, how far through it; the caption, counter and segments follow
+function heroTick() {
+  const t = hero.currentTime, i = Math.max(0, CUTS.findLastIndex(([at]) => t >= at));
+  if (i !== cutNow) showCut(i);
+  const end = CUTS[i + 1]?.[0] ?? hero.duration;
+  segs[i].style.setProperty('--p', clamp((t - CUTS[i][0]) / (end - CUTS[i][0]) || 0).toFixed(3));
+}
+function showCut(i) {
+  cutNow = i;
+  segs.forEach((s, k) => { s.style.removeProperty('--p'); s.classList.toggle('is-done', k < i); });
+  count.firstChild.textContent = String(i + 1).padStart(2, '0');
+  const slug = CUTS[i][1], f = FILMS[slug];
   if (heroFilm.dataset.film === slug) return;
   Object.assign(heroFilm, { href: f.href, target: f.embed ? '' : '_blank' }); // Marzi opens on Instagram
   heroFilm.dataset.film = slug;
   $('.hero__brand', heroFilm).textContent = f.client.split(',')[0];
   $('.hero__title', heroFilm).textContent = f.title;
-});
+  if (!reduce) heroFilm.animate([{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'none' }], { duration: 420, easing: 'cubic-bezier(.19, 1, .22, 1)' });
+}
 new IntersectionObserver(([e]) => (e.isIntersecting ? heroPlay() : hero.pause())).observe(hero);
 
 // ---------- opening: "How is your fever?" on black; the mercury climbs to 103°F, drops into the logo, the logo flies to the top bar ----------

@@ -39,7 +39,9 @@ const opened = (p) => p.waitForFunction(() => document.documentElement?.classLis
   }, null, { timeout: 25000 }).catch(() => assert.fail('caption names the film on screen'));
   await page.locator('.hero__pause').click();
   assert.ok(await page.evaluate(() => document.querySelector('.hero__video').paused), 'montage pauses');
-  assert.equal(await page.locator('.hero__pause').textContent(), 'Play', 'button offers Play');
+  assert.equal(await page.locator('.hero__pause').getAttribute('aria-label'), 'Play the showreel', 'button offers Play');
+  assert.equal(await page.locator('.hero__cuts li').count(), await page.evaluate(() => CUTS.length), 'one progress segment per cut');
+  assert.equal(await page.locator('.hint').count(), 0, 'no "Click a film to watch it" pill');
 
   // work: brands in the agreed order, each on its own colour, with the side cutouts behind every one of them
   assert.deepEqual(await page.$$eval('.roll .huge, .screening .huge', (els) => els.map((e) => e.textContent)),
@@ -62,13 +64,15 @@ const opened = (p) => p.waitForFunction(() => document.documentElement?.classLis
   assert.match(await page.locator('.screen__video').getAttribute('src'), /spotify-lights\.mp4/, 'the next Spotify film rolls on');
   await page.locator('.brand__films a[data-film="cyberdost-phulera"]').click();
   assert.match(await page.locator('.lb__media iframe').getAttribute('src'), /r0bzNean0go/, 'a film opens in the viewer');
+  assert.equal(await page.locator('[data-field="director"]').textContent(), ' · Directed by Deepak Mishra', 'the viewer names the director');
   await page.keyboard.press('ArrowRight');
   assert.match(await page.locator('.lb__media iframe').getAttribute('src'), /rZuU2rsYM5M/, 'next film follows the same order');
   await page.keyboard.press('Escape');
   await page.locator('.lb__media iframe').waitFor({ state: 'detached', timeout: 5000 });
 
   // directors roster: on a mouse, the hovered director's portrait shows by the pointer
-  assert.equal(await page.locator('.roster__row').count(), 4, 'four directors');
+  assert.equal(await page.locator('.roster__row').count(), 8, 'all eight directors from the team list');
+  assert.equal(await page.locator('.roster__row').nth(6).locator('.roster__name').textContent(), 'Raghav Subbu', 'roster follows the team list');
   const row = page.locator('.roster__row').nth(2);
   await row.scrollIntoViewIfNeeded();
   await row.hover();
@@ -108,7 +112,7 @@ const opened = (p) => p.waitForFunction(() => document.documentElement?.classLis
   assert.ok(await phone.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'no sideways scroll on a phone');
   assert.ok(await phone.locator('.chrome .brief').isVisible(), 'Email a brief visible on phone');
   assert.ok(await phone.evaluate(() => {
-    const bar = document.querySelector('.hero__bar').getBoundingClientRect(), brief = document.querySelector('.chrome .brief').getBoundingClientRect();
+    const bar = document.querySelector('.hero__info').getBoundingClientRect(), brief = document.querySelector('.chrome .brief').getBoundingClientRect();
     return bar.bottom <= brief.top;
   }), 'montage caption clears the floating Email a brief button');
   assert.ok(!(await phone.locator('#nav a[href="#about"]').isVisible()), 'phone menu starts closed');
