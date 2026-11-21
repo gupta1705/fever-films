@@ -112,7 +112,7 @@ const opened = (p) => p.waitForFunction(() => document.documentElement?.classLis
   assert.equal(await page.locator('.opening').count(), 0, 'links skip the opening');
   assert.match(await page.locator('.lb__media iframe').getAttribute('src'), /LxK1G7hnbZE/, 'deep link opens its film');
   await page.goto(`${BASE}iteration-3/?old#spotify-lights`, { waitUntil: 'domcontentloaded' });
-  await page.waitForURL((u) => !u.pathname.includes('iteration-3'), { timeout: 10000 });
+  await page.waitForURL((u) => !u.pathname.includes('iteration-3'), { timeout: 10000, waitUntil: 'commit' }); // 'load' would wait for the YouTube player
   assert.match(await page.locator('.lb__media iframe').getAttribute('src'), /LxK1G7hnbZE/, 'old /iteration-3/ links forward, film and all');
 
   // phone
