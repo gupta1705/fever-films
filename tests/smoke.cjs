@@ -24,6 +24,7 @@ const opened = (p) => p.waitForFunction(() => document.documentElement?.classLis
   assert.ok(await page.locator('.mark__on-dark').isVisible(), 'logo lands in the top bar');
   await page.waitForTimeout(800);
   assert.ok(await page.evaluate(() => !document.querySelector('.hero__video').paused), 'montage plays after the opening');
+  assert.equal(await page.locator('.hero__index a.is-on').textContent(), 'CyberDost', 'the first client is lit from the first frame');
 
   const local = await page.$$eval('[src],[href],[poster]', (els) => els
     .flatMap((e) => [e.getAttribute('src'), e.getAttribute('href'), e.getAttribute('poster')])
@@ -32,15 +33,23 @@ const opened = (p) => p.waitForFunction(() => document.documentElement?.classLis
   assert.deepEqual(await page.$$eval('main > [id]', (els) => els.map((e) => e.id)), ['top', 'work', 'spotify', 'directors', 'bts', 'ip', 'about', 'contact'], 'montage, work, directors, BTS, IP');
   assert.equal(await page.evaluate(() => (document.body.innerText.match(/TVF/g) || []).length), 1, 'TVF is named once');
 
-  // the montage caption names the cut on screen (no seeking: python's http.server has no range requests)
+  // the hero names the cut on screen, lights its client in the list and takes that client's Work colour
+  // (no seeking: python's http.server has no range requests)
+  assert.deepEqual(await page.$$eval('.hero__index a', (els) => els.map((e) => e.textContent)),
+    ['CyberDost', 'Aamir Khan Productions', 'Marzi', 'Spotify', 'CU Online', 'UltraTech', 'Aadhar', 'Wiom'], 'hero lists the clients in the agreed order');
   await page.waitForFunction(() => {
     const t = document.querySelector('.hero__video').currentTime, i = CUTS.findLastIndex(([at]) => t >= at);
-    return i > 0 && t > CUTS[i][0] + 0.3 && (i + 1 === CUTS.length || t < CUTS[i + 1][0]) && document.querySelector('.hero__film').dataset.film === CUTS[i][1];
-  }, null, { timeout: 25000 }).catch(() => assert.fail('caption names the film on screen'));
+    const lit = document.querySelector('.hero__index a.is-on');
+    return i > 2 && t > CUTS[i][0] + 0.3 && (i + 1 === CUTS.length || t < CUTS[i + 1][0]) && document.querySelector('.hero__film').dataset.film === CUTS[i][1]
+      && document.querySelectorAll('.hero__index a.is-on').length === 1 && lit.dataset.brand === CUTS[i][1].split('-')[0]
+      && document.querySelector('.hero__brand').textContent === lit.textContent
+      && document.getElementById('top').dataset.bg === document.querySelector(lit.hash).dataset.bg;
+  }, null, { timeout: 25000 }).catch(() => assert.fail('hero names the film on screen and lights its client'));
   await page.locator('.hero__pause').click();
   assert.ok(await page.evaluate(() => document.querySelector('.hero__video').paused), 'montage pauses');
   assert.equal(await page.locator('.hero__pause').getAttribute('aria-label'), 'Play the showreel', 'button offers Play');
-  assert.equal(await page.locator('.hero__cuts li').count(), await page.evaluate(() => CUTS.length), 'one progress segment per cut');
+  assert.equal(await page.locator('.hero__pause').textContent(), 'Play', 'the button says Play');
+  assert.equal(await page.evaluate(() => new Set(CUTS.map(([, s]) => s.split('-')[0])).size), 8, 'every client is in the montage');
   assert.equal(await page.locator('.hint').count(), 0, 'no "Click a film to watch it" pill');
 
   // work: brands in the agreed order, each on its own colour, with the side cutouts behind every one of them
@@ -87,7 +96,9 @@ const opened = (p) => p.waitForFunction(() => document.documentElement?.classLis
   await page.waitForTimeout(2600);
   const gap = await page.evaluate(() => Math.abs(scrollY - document.getElementById('ip').offsetTop));
   assert.ok(gap < 40, `nav jumps to IP (off by ${gap}px)`);
-  assert.equal(await page.locator('.nav a.is-on').textContent(), 'IP', 'IP underlined');
+  assert.equal(await page.locator('.nav a.is-on').textContent(), 'IP', 'IP lit');
+  assert.ok(await page.evaluate(() => Math.abs(document.querySelector('.mercury').getBoundingClientRect().right
+    - document.querySelector('.nav a.is-on').getBoundingClientRect().right) < 2), 'mercury runs to the end of IP');
   await page.locator('.ip-row__ads a[data-film="spotify-laddoo"]').click();
   assert.match(await page.locator('.lb__media iframe').getAttribute('src'), /Ll9335RK9R0/, 'IP links open the film');
   await page.keyboard.press('Escape');
@@ -97,10 +108,10 @@ const opened = (p) => p.waitForFunction(() => document.documentElement?.classLis
   await opened(page);
   await page.mouse.click(400, 300);
   assert.equal(await page.locator('.opening').count(), 0, 'a click skips the opening');
-  await page.goto(`${BASE}?shared#spotify-lights`);
+  await page.goto(`${BASE}?shared#spotify-lights`, { waitUntil: 'domcontentloaded' }); // 'load' would wait for the YouTube player too
   assert.equal(await page.locator('.opening').count(), 0, 'links skip the opening');
   assert.match(await page.locator('.lb__media iframe').getAttribute('src'), /LxK1G7hnbZE/, 'deep link opens its film');
-  await page.goto(`${BASE}iteration-3/?old#spotify-lights`);
+  await page.goto(`${BASE}iteration-3/?old#spotify-lights`, { waitUntil: 'domcontentloaded' });
   await page.waitForURL((u) => !u.pathname.includes('iteration-3'), { timeout: 10000 });
   assert.match(await page.locator('.lb__media iframe').getAttribute('src'), /LxK1G7hnbZE/, 'old /iteration-3/ links forward, film and all');
 
@@ -112,9 +123,9 @@ const opened = (p) => p.waitForFunction(() => document.documentElement?.classLis
   assert.ok(await phone.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'no sideways scroll on a phone');
   assert.ok(await phone.locator('.chrome .brief').isVisible(), 'Email a brief visible on phone');
   assert.ok(await phone.evaluate(() => {
-    const bar = document.querySelector('.hero__info').getBoundingClientRect(), brief = document.querySelector('.chrome .brief').getBoundingClientRect();
-    return bar.bottom <= brief.top;
-  }), 'montage caption clears the floating Email a brief button');
+    const screen = document.querySelector('.hero__screen').getBoundingClientRect(), brief = document.querySelector('.chrome .brief').getBoundingClientRect();
+    return brief.bottom <= screen.top + 1 && screen.left >= 0 && screen.right <= innerWidth + 1 && screen.bottom <= innerHeight;
+  }), 'Email a brief sits in the top bar, clear of the whole montage');
   assert.ok(!(await phone.locator('#nav a[href="#about"]').isVisible()), 'phone menu starts closed');
   await phone.locator('.nav-toggle').click();
   assert.ok(await phone.locator('#nav a[href="#about"]').isVisible(), 'phone menu opens full-screen');

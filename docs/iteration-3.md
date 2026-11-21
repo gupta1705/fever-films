@@ -45,6 +45,30 @@ button that never leaves the screen, per-chapter colours and the lightbox.
     film. Beside that are a cut counter (03 / 15) and a round pause button. Along the bottom runs a
     segmented progress bar with one segment per cut.
 
+## Round 7 (2026-11-21): the top of the page, again
+
+- Feedback on round 6's top: "it still looks very bad". Before that, the plain version was "so basic" and
+  the serif one "very AI". The rejected tops were built from app parts: a glass capsule, a rounded frame,
+  a live dot, a counter, a round pause button and a segmented bar. None of those belong to the sections
+  the client likes, and the footage was stretched to full screen at about twice its size.
+- **Nav: the logo's thermometer laid flat.** A full-width ruled bar on the chapter's colour. It has a logo
+  cell, six equal section cells and a gold "Email a brief" block in the corner. A tube runs along its foot,
+  and red mercury in it runs to the end of the section you're in; at the top it fills the logo's cell. On
+  the gold About chapter the ink goes dark, the logo keeps a black cell and the brief turns black. Up to
+  1100px wide the bar shows the logo, the brief and Menu (the full-screen gold menu is unchanged), and the
+  mercury shows how far down the page you are.
+- **Hero: the films on a sharp screen beside the client list.** The montage plays in a square 16:9
+  frame under the Work–About cells, never wider than its 720p picture holds (about 1100px on a 1080p
+  monitor). Under it the client on screen is named in large gold type. The eight clients are listed
+  beside it in the agreed order. The client on screen is lit gold, and the page takes that client's Work
+  colour. Pointing at a client shows its films; clicking goes to it in Work. The film title and a plain
+  "Pause" sit under the list. Everything swaps on the cut: no fades, nothing moves. On phones the frame
+  runs edge to edge and the list fills the rest of the screen.
+- The montage is regrouped so each client's cuts sit together (CyberDost ×3, Aamir Khan, Marzi, Spotify ×4,
+  CU Online ×2, UltraTech, Aadhar, Wiom ×2), and re-encoded at CRF 21 (3.3 MB, was 0.75 Mb/s).
+- Work brand screens have ids (`#cyberdost`, `#aamir-khan`, `#marzi`, `#cu-online`, `#ultratech`,
+  `#aadhar`, `#wiom`; Spotify keeps `#spotify`).
+
 ## Whiteboard flow → site
 
 | Whiteboard | Site |

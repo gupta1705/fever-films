@@ -46,12 +46,11 @@
     <p class="opening__q">How is your fever?</p>
   </div>
 
-  <!-- One floating glass capsule: logo, sections (a highlight slides to the one you're in) and the always-on brief button -->
+  <!-- The top bar is the logo's thermometer laid flat: a ruled rail of sections, and the red mercury along its foot runs to the one you're in -->
   <header class="chrome">
-    <a class="mark" href="#top"><img class="mark__on-dark" src="img/logo-light.svg" alt="Fever Films" width="126" height="25"></a>
-    <!-- on phones this becomes a full-screen menu opened by the Menu button -->
+    <a class="mark" href="#top"><img class="mark__on-dark" src="img/logo-light.svg" alt="Fever Films" width="150" height="30"></a>
+    <!-- up to 1100px wide this becomes a full-screen menu opened by the Menu button -->
     <nav class="nav" id="nav" aria-label="Sections">
-      <span class="nav__pill" aria-hidden="true"></span>
       <a href="#work">Work</a>
       <a href="#directors">Directors</a>
       <a href="#bts">BTS</a>
@@ -62,35 +61,34 @@
     <!-- always on screen, by request -->
     <a class="brief" href="mailto:hello@feverfilms.co?subject=Brief%20for%20Fever%20Films">Email a brief <svg class="brief__arrow" width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 10 10 2M4 2h6v6" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></a>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
+    <span class="mercury" aria-hidden="true"></span>
   </header>
-  <span class="progress" aria-hidden="true"></span>
 
   <div class="field" aria-hidden="true"></div>
 
   <main id="main">
-    <!-- 1. Snapshots of our films, cut like an edit (the 1st December / Banana in a Suit opening) -->
-    <section class="hero" id="top" aria-labelledby="hero-title">
+    <!-- 1. Snapshots of our films, cut like an edit, on a sharp screen beside the clients they were made for.
+         The client on screen is lit and the page takes its colour from Work. -->
+    <section class="hero" id="top" data-bg="#12264a" aria-labelledby="hero-title">
       <h1 class="visually-hidden" id="hero-title">Fever Films</h1>
-      <div class="hero__frame">
-        <video class="hero__video" muted loop playsinline preload="auto" poster="img/montage.webp" src="video/montage.mp4" aria-hidden="true"></video>
-        <div class="hero__info">
-          <!-- names the film on screen; click it to watch that film -->
-          <a class="hero__film" data-film="cyberdost-phulera" href="https://www.youtube.com/watch?v=r0bzNean0go" rel="noopener">
-            <span class="hero__label">Now showing</span>
-            <span class="hero__brand">CyberDost</span>
-            <span class="hero__title">Phulera Mein Cyber Crime ft. Amitabh Bachchan</span>
-          </a>
-          <div class="hero__controls">
-            <span class="hero__count" aria-hidden="true"><b>01</b> / 15</span>
-            <button class="hero__pause" type="button" aria-label="Pause the showreel">
-              <svg class="i-pause" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 3h3v10H4zM9 3h3v10H9z" fill="currentColor"/></svg>
-              <svg class="i-play" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 2.5 13.5 8 5 13.5z" fill="currentColor"/></svg>
-            </button>
-          </div>
-        </div>
-        <!-- one segment per cut in the reel; the current one fills as it plays -->
-        <ol class="hero__cuts" aria-hidden="true"></ol>
-      </div>
+      <!-- the picture and the client's name: click either to watch the film on screen -->
+      <a class="hero__film" data-film="cyberdost-phulera" href="https://www.youtube.com/watch?v=r0bzNean0go" rel="noopener">
+        <span class="hero__screen"><video class="hero__video" muted loop playsinline preload="auto" poster="img/montage.webp" src="video/montage.mp4" aria-hidden="true"></video></span>
+        <span class="hero__brand">CyberDost</span>
+      </a>
+      <!-- the clients in the agreed order: point at one to see its films, click to go to it in Work -->
+      <ol class="hero__index" aria-label="Clients">
+        <li><a href="#cyberdost" data-brand="cyberdost">CyberDost</a></li>
+        <li><a href="#aamir-khan" data-brand="sitaare">Aamir Khan Productions</a></li>
+        <li><a href="#marzi" data-brand="marzi">Marzi</a></li>
+        <li><a href="#spotify" data-brand="spotify">Spotify</a></li>
+        <li><a href="#cu-online" data-brand="cu">CU Online</a></li>
+        <li><a href="#ultratech" data-brand="ultratech">UltraTech</a></li>
+        <li><a href="#aadhar" data-brand="aadhar">Aadhar</a></li>
+        <li><a href="#wiom" data-brand="wiom">Wiom</a></li>
+      </ol>
+      <p class="hero__credit"><span class="hero__title">Phulera Mein Cyber Crime ft. Amitabh Bachchan</span>
+        <button class="hero__pause" type="button" aria-label="Pause the showreel">Pause</button></p>
     </section>
 
     <!-- 2. Our work, in the agreed order: CyberDost (Amitabh Bachchan), Aamir Khan, Marzi (Suniel Shetty), Spotify, CU, then the rest.
@@ -101,7 +99,7 @@
     </div>
 
     <section class="roll" data-nav="work" aria-labelledby="work-title">
-      <article class="brand" data-field data-bg="#12264a">
+      <article class="brand" id="cyberdost" data-field data-bg="#12264a">
         <h3 class="huge">CyberDost</h3>
         <a class="film brand__still" data-film="cyberdost-phulera" href="https://www.youtube.com/watch?v=r0bzNean0go" aria-label="Watch Phulera Mein Cyber Crime ft. Amitabh Bachchan"><img src="img/work/cyberdost-phulera.webp" alt="" width="960" height="540" loading="lazy"></a>
         <p class="brand__cap">I4C, Ministry of Home Affairs, with Amitabh Bachchan and the cast of Panchayat. Directed by Deepak Mishra</p>
@@ -113,7 +111,7 @@
         </ul>
       </article>
 
-      <article class="brand" data-field data-bg="#3d2711">
+      <article class="brand" id="aamir-khan" data-field data-bg="#3d2711">
         <h3 class="huge">Aamir Khan Productions</h3>
         <a class="film brand__still" data-film="sitaare-zameen-par" href="https://www.youtube.com/watch?v=GBaRZN8YpH8" aria-label="Watch Sitaare Zameen Par on YouTube"><img src="img/work/sitaare-zameen-par.webp" alt="" width="960" height="540" loading="lazy"></a>
         <p class="brand__cap">Sitaare Zameen Par, on YouTube. Directed by Vaibhav Bundhoo</p>
@@ -122,7 +120,7 @@
         </ul>
       </article>
 
-      <article class="brand" data-field data-bg="#2c1a4a">
+      <article class="brand" id="marzi" data-field data-bg="#2c1a4a">
         <h3 class="huge">Marzi</h3>
         <a class="brand__still" href="https://www.instagram.com/reel/Debz-18x0q4/" target="_blank" rel="noopener" aria-label="Watch Find your kind on Instagram"><img src="img/work/marzi-find-your-kind.webp" alt="" width="960" height="540" loading="lazy"></a>
         <p class="brand__cap">Marzi Meetups, with Suniel Shetty. Directed by Anand Iyer</p>
@@ -149,7 +147,7 @@
     </section>
 
     <section class="roll" data-nav="work" aria-label="More work">
-      <article class="brand" data-field data-bg="#43111f">
+      <article class="brand" id="cu-online" data-field data-bg="#43111f">
         <h3 class="huge">CU Online</h3>
         <a class="film brand__still" data-film="cu-online-banrakas" href="https://www.youtube.com/watch?v=zCt4tXB0suY" aria-label="Watch Banrakas Ka Heist"><img src="img/work/cu-online-banrakas.webp" alt="" width="960" height="540" loading="lazy"></a>
         <p class="brand__cap">Chandigarh University Online, with Panchayat's Vikas and Bhushan</p>
@@ -158,7 +156,7 @@
         </ul>
       </article>
 
-      <article class="brand" data-field data-bg="#373010">
+      <article class="brand" id="ultratech" data-field data-bg="#373010">
         <h3 class="huge">UltraTech</h3>
         <a class="film brand__still" data-film="ultratech-ek-ghar" href="https://www.youtube.com/watch?v=gmoEBbsfT30" aria-label="Watch Ek Ghar Banaunga"><img src="img/work/ultratech-ek-ghar.webp" alt="" width="960" height="540" loading="lazy"></a>
         <p class="brand__cap">UltraTech Cement. Directed by Akshat Vijaywargya</p>
@@ -167,7 +165,7 @@
         </ul>
       </article>
 
-      <article class="brand" data-field data-bg="#481a14">
+      <article class="brand" id="aadhar" data-field data-bg="#481a14">
         <h3 class="huge">Aadhar</h3>
         <a class="film brand__still" data-film="aadhar-daga-seth" href="https://www.youtube.com/watch?v=cd1QVHG54hs" aria-label="Watch Daga Seth"><img src="img/work/aadhar-daga-seth.webp" alt="" width="960" height="540" loading="lazy"></a>
         <p class="brand__cap">Aadhar Housing Finance, Ghar Le Lo. Directed by Deepesh Saumitra Jagdish</p>
@@ -177,7 +175,7 @@
         </ul>
       </article>
 
-      <article class="brand" data-field data-bg="#43123b">
+      <article class="brand" id="wiom" data-field data-bg="#43123b">
         <h3 class="huge">Wiom</h3>
         <a class="film brand__still" data-film="wiom-two-kids" href="https://drive.google.com/file/d/13i2K9l_GGiNd0cqgOdKI8uhV56eY3rS-/view" aria-label="Watch Two Kids"><img src="img/work/wiom-two-kids.webp" alt="" width="960" height="540" loading="lazy"></a>
         <p class="brand__cap">Recharge Waala Ghar Ka Net: stories of struggle and aspiration. Directed by Parth Manocha</p>
