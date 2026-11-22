@@ -16,7 +16,7 @@ button that never leaves the screen, per-chapter colours and the lightbox.
   removed. A film-grid version was tried and dropped. Work is the colour-changing brand roll: CyberDost →
   Aamir Khan Productions → Marzi → Spotify (its three films playing in place) → CU Online → UltraTech →
   Aadhar → Wiom. Each brand has its own background colour, and the cutouts drift behind all of them, as
-  on Contact. On phones the cutouts hang off the screen edges so they never cover a film.
+  on Contact. On phones there are none: the films run edge to edge, and cut down to slivers at the screen edges they looked broken (round 8 feedback).
 - The viewer's prev/next order runs by who is on screen. First come the two CyberDost films with Amitabh
   Bachchan, then Aamir Khan, Suniel Shetty, Spotify and CU. The other two CyberDost films follow with
   the rest of the ads.

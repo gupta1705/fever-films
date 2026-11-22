@@ -440,6 +440,7 @@ main { position: relative; z-index: 1; }
   .nav { grid-template-columns: 1fr; }
   .nav__foot { grid-column: 1; grid-row: auto; margin: 22px 0 0; padding: 20px 0 0; border-left: 0; border-top: 1px solid var(--hair); justify-self: stretch; font-size: 14px; }
   .nav__mail { margin: 6px 0 16px; font-size: 24px; }
+  .field { display: none; } /* the films run edge to edge, so the side cutouts could only peek in as slivers at the screen edges */
   .brand { padding: 7vh 18px; gap: 16px; }   /* 14vh a side left a third of a phone screen between brands */
   /* the lit row of the list names the client, so the big name is left to screen readers; the list fills the rest of the screen */
   .ip-row { grid-template-columns: 1fr; }

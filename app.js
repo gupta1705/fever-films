@@ -96,12 +96,12 @@ const pool = [
 for (let i = pool.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [pool[i], pool[j]] = [pool[j], pool[i]]; }
 const items = pool.map((p, i) => {
   const d = 0.25 + rnd() * 0.75; // depth: far items are smaller and slower
-  // stills keep to the edges so the centred text and the pinned film stay clear; on phones they hang half off-screen
-  const left = rnd() < 0.5, phone = innerWidth < 760;
-  const x = phone ? (left ? -8 + rnd() * 8 : 92 + rnd() * 6) : left ? -3 + rnd() * 17 : 74 + rnd() * 20;
+  // stills keep to the edges so the centred text and the pinned film stay clear (phones have no edge to spare: style.css hides them)
+  const left = rnd() < 0.5;
+  const x = left ? -3 + rnd() * 17 : 74 + rnd() * 20;
   const w = (p?.portrait ? 6.5 : p ? 11 : 6 + rnd() * 6) * (0.55 + d * 0.65);
   const ratio = p?.portrait ? 1 : p ? 9 / 16 : [1, 0.75, 1.3][Math.floor(rnd() * 3)];
-  const link = p && !phone; // on phones the stills are too small to tap, so they stay pictures
+  const link = !!p;
   const el = document.createElement(link ? 'a' : 'span');
   el.className = `field__item${p?.portrait ? ' is-portrait' : ''}`;
   el.style.cssText = `left:${x}vw;width:${w}vw;height:${w * ratio}vw`;

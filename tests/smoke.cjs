@@ -300,6 +300,7 @@ const handoffHits = (p) => p.evaluate(async () => {
   await phone.locator('.opening').waitFor({ state: 'detached', timeout: 6000 });
   assert.ok(await phone.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'no sideways scroll on a phone');
   assert.ok(await phone.locator('.chrome .brief').isVisible(), 'Email a brief visible on phone');
+  assert.equal(await phone.evaluate(() => getComputedStyle(document.querySelector('.field')).display), 'none', 'phone: no side cutouts (no edge for them)');
   assert.ok(await phone.evaluate(() => {
     const screen = document.querySelector('.hero__screen').getBoundingClientRect(), brief = document.querySelector('.chrome .brief').getBoundingClientRect();
     return brief.bottom <= screen.top + 1 && screen.left >= 0 && screen.right <= innerWidth + 1 && screen.bottom <= innerHeight;
