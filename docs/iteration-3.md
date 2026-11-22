@@ -69,6 +69,36 @@ button that never leaves the screen, per-chapter colours and the lightbox.
 - Work brand screens have ids (`#cyberdost`, `#aamir-khan`, `#marzi`, `#cu-online`, `#ultratech`,
   `#aadhar`, `#wiom`; Spotify keeps `#spotify`).
 
+## Round 8 (2026-11-22): Cinema
+
+- Feedback on round 7's top: "I still dont like it at all. Go again". Several directions were built and
+  judged against the client's references (1stdecember.com and Banana in a Suit, both full-bleed). Two were
+  shown side by side, and the client picked **Cinema**.
+- **Hero.** The reel fills the first screen edge to edge, 1080p on desktop (`video/montage-1080.mp4`) and
+  720p on phones. Each cut is graded with a faint wash of its client's Work colour, and its foot sinks into
+  that colour. The real logo sits big across the foot of the picture like a film title. Its red mercury
+  climbs the tube as the 18 s reel plays; that is the only progress indicator.
+- **Framing per cut.** `FACES` in `app.js` holds each cut's face positions, read by eye off its first and
+  last frames. On the cut, the picture is framed so no face sits under the logo, and on phones the tall
+  crop keeps every face whole or out of frame. Burned-in Spotify logos are cropped off on desktop. The CU
+  logo stays in frame, just under the brief/Menu block.
+- **Credit.** One line under the logo: client, film, "Directed by …" and Pause, locked to the logo's
+  edges. It fades out as the hero leaves, so it never runs into the docked logo.
+- **Nav.** The logo docks top-left as you scroll, moved by a CSS scroll-driven animation where the
+  browser has one (Chrome, Edge, Safari 26), so it moves in the same frame as the page. Firefox has no
+  scroll timelines, so app.js moves it there. Top-right is one block: "Email a brief" in gold, Menu in
+  black. Menu opens a full screen with the reel playing behind a dark scrim, the six sections in gold and
+  the contact details beside them.
+- **Page colour.** The colour per section is one value (`--bg-now`), eased once and read by the page
+  and the bar together. So a fast scroll into or out of the gold About never shows a band of the old
+  colour over the type. On gold the bar has no hard edge: the type dissolves into the gold under the logo
+  and the block.
+- `tests/smoke.cjs` checks each of these, including faces clear of the logo on every cut at three desktop
+  sizes, the credit never touching the logo while scrolling, and the bar matching the page on every
+  frame of a colour change.
+- Not checked: real phones, Safari and Firefox (only Chromium was run). The push-ins on the 960x540 stills
+  (Amitabh's first cut, Marzi) are still soft at full screen; grain and grade hide most of it.
+
 ## Whiteboard flow → site
 
 | Whiteboard | Site |
@@ -132,8 +162,9 @@ the script never runs, a CSS failsafe hides the black layer after 7 s.
 
 ## Montage
 
-`scripts/make-montage.sh` cuts `iteration-3/video/montage.mp4`: 16 cuts of 1.2 s each, 19.2 s in total,
-720p, no sound, 1.9 MB. It uses two sources:
+`scripts/make-montage.sh` cuts `video/montage.mp4` (720p, phones) and `video/montage-1080.mp4` (1080p,
+wider screens) from the same list, and the poster `img/montage.webp`. Now 15 cuts of 1.2 s each, 18 s,
+no sound. When first written it had 16 cuts at 720p only, 1.9 MB. It uses two sources:
 - 8 motion clips from the public Drive masters (Spotify x Gullak, CU Online), seeking remotely;
 - 8 slow push-ins on stills. These cover the films that only exist on YouTube (CyberDost with Amitabh
   Bachchan, Sitaare Zameen Par, UltraTech, Aadhar, Marzi). They also cover Wiom, because its Drive
